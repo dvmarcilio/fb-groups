@@ -12,3 +12,6 @@ hs_err_pid*
 /bin/
 .classpath
 .project
+
+# Ignoring data until I get to anonymize its content.
+/src/data/
