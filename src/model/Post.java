@@ -29,18 +29,6 @@ public class Post {
 		return author;
 	}
 
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-
-	public PostComments getPostComments() {
-		return postComments;
-	}
-
-	public void setPostComments(PostComments postComments) {
-		this.postComments = postComments;
-	}
-
 	public List<Comment> getComments() {
 		if (postComments == null)
 			return Collections.emptyList();
@@ -53,13 +41,6 @@ public class Post {
 		return postLikes.getLikesFrom();
 	}
 
-	public PostLikes getPostLikes() {
-		return postLikes;
-	}
-
-	public void setPostLikes(PostLikes postLikes) {
-		this.postLikes = postLikes;
-	}
 
 	@Override
 	public String toString() {
@@ -75,7 +56,8 @@ public class Post {
 	}
 
 	private Collection<Interaction> getLikesInteractions() {
-		List<Interaction> likes = new ArrayList<Interaction>(postLikes.size());
+		List<Interaction> likes = new ArrayList<Interaction>(
+				getLikes().size());
 		for (User userWhoLiked : getLikes()) {
 			likes.add(new Interaction(userWhoLiked, author));
 		}
@@ -84,8 +66,8 @@ public class Post {
 
 	private Collection<Interaction> getCommentsInteractions() {
 		List<Interaction> comments = new ArrayList<Interaction>(
-				postComments.size());
-		for (Comment comment : postComments.getComments()) {
+				getComments().size());
+		for (Comment comment : getComments()) {
 			comments.add(new Interaction(comment.getAuthor(), author));
 			comments.addAll(comment.getMentionsInteractions());
 		}
