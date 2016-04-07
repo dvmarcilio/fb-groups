@@ -31,14 +31,17 @@ public class Node {
 					.get(interactedNode);
 			interactions.add(interactionType);
 		}
+
+		outDegree += 1;
+		interactedNode.interactedWith();
 	}
 
 	public Set<Node> getNeighbors() {
 		return neighborsInteractedWith.keySet();
 	}
 
-	public void interactedWith() {
-		inDegree++;
+	private void interactedWith() {
+		inDegree += 1;
 	}
 
 	public int getInDegree() {
