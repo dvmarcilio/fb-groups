@@ -1,4 +1,4 @@
-package model;
+package model.fbdata;
 
 public class User {
 
