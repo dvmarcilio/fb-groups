@@ -2,6 +2,11 @@ package model.fbdata;
 
 public class Interaction {
 
+	public enum Type {
+		COMMENT,
+		MENTION;
+	}
+
 	private User from;
 
 	private User to;
