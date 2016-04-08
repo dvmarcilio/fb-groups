@@ -4,10 +4,10 @@ import model.fbdata.Interaction;
 
 public class Interactions {
 
-	private int total = 0;
-	private int totalComments = 0;
-	private int totalMentions = 0;
-	private int totalLikes = 0;
+	private Integer total = 0;
+	private Integer totalComments = 0;
+	private Integer totalMentions = 0;
+	private Integer totalLikes = 0;
 
 	public void add(Interaction.Type interactionType) {
 		addToSpecificTypeCount(interactionType);
@@ -27,19 +27,19 @@ public class Interactions {
 		}
 	}
 
-	public int getTotal() {
+	public Integer getTotal() {
 		return total;
 	}
 
-	public int getTotalComments() {
+	public Integer getTotalComments() {
 		return totalComments;
 	}
 
-	public int getTotalMentions() {
+	public Integer getTotalMentions() {
 		return totalMentions;
 	}
 
-	public int getTotalLikes() {
+	public Integer getTotalLikes() {
 		return totalLikes;
 	}
 

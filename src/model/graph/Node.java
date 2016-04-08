@@ -10,9 +10,9 @@ public class Node {
 
 	private User user;
 
-	private int inDegree = 0;
+	private Integer inDegree = 0;
 
-	private int outDegree = 0;
+	private Integer outDegree = 0;
 
 	private HashMap<Node, Interactions> neighborsInteractedWith = new HashMap<>();
 
@@ -44,11 +44,11 @@ public class Node {
 		inDegree += 1;
 	}
 
-	public int getInDegree() {
+	public Integer getInDegree() {
 		return inDegree;
 	}
 
-	public int getOutDegree() {
+	public Integer getOutDegree() {
 		return outDegree;
 	}
 
@@ -79,6 +79,12 @@ public class Node {
 		} else if (!user.equals(other.user))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Node [user=" + user + ", inDegree=" + inDegree + ", outDegree="
+				+ outDegree;
 	}
 
 }
