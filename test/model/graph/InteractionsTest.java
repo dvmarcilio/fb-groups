@@ -1,10 +1,12 @@
 package model.graph;
 
 import static org.junit.Assert.*;
-import model.fbdata.Interaction.Type;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import model.fbdata.Interaction.Type;
+import model.graph.Interactions;
 
 public class InteractionsTest {
 
