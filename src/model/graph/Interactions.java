@@ -7,6 +7,7 @@ public class Interactions {
 	private int total = 0;
 	private int totalComments = 0;
 	private int totalMentions = 0;
+	private int totalLikes = 0;
 
 	public void add(Interaction.Type interactionType) {
 		addToSpecificTypeCount(interactionType);
@@ -21,6 +22,8 @@ public class Interactions {
 		case MENTION:
 			totalMentions += 1;
 			break;
+		case LIKE:
+			totalLikes += 1;
 		}
 	}
 
@@ -34,6 +37,10 @@ public class Interactions {
 
 	public int getTotalMentions() {
 		return totalMentions;
+	}
+
+	public int getTotalLikes() {
+		return totalLikes;
 	}
 
 }

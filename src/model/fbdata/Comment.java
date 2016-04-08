@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import model.fbdata.Interaction.Type;
+
 public class Comment {
 
 	private Long id;
@@ -43,8 +45,8 @@ public class Comment {
 		List<Interaction> interactions = new ArrayList<Interaction>(
 				mentions.size());
 		for (Mention mention : mentions) {
-			interactions
-					.add(new Interaction(author, mention.getUserMentioned()));
+			interactions.add(new Interaction(author, mention.getUserMentioned(),
+					Type.MENTION));
 		}
 		return interactions;
 	}
