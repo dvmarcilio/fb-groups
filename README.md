@@ -5,4 +5,5 @@ Since I'm starting from data acquired through [facebook-export](https://www.npmj
 * There are no nested comments (replies as Facebooks call it).
 * Comments don't have likes associated with them.
   *   Back in the day it was not a trivial task to retrieve it.
+* The photos weren't imported. So no TAGS for now.
 
