@@ -27,6 +27,12 @@ public class Post {
 	@JsonProperty("likes")
 	private PostLikes postLikes;
 
+	@JsonProperty("story_tags")
+	private StoryTags storyTags;
+
+	@JsonProperty("with_tags")
+	private WithTags withTags;
+
 	public User getAuthor() {
 		return author;
 	}
@@ -41,6 +47,14 @@ public class Post {
 		if (postLikes == null)
 			return Collections.emptyList();
 		return postLikes.getLikesFrom();
+	}
+
+	public List<Mention> getWithTags() {
+		return withTags.getTags();
+	}
+
+	public List<Mention> getStoryTags() {
+		return storyTags.getTags();
 	}
 
 	@Override
@@ -81,9 +95,12 @@ public class Post {
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
 				false);
 
-		InputStream is = Post.class.getResourceAsStream("/data/post_big.json");
+		InputStream is = Post.class
+				.getResourceAsStream("/data/post_with_mentions.json");
 		Post testObj = mapper.readValue(is, Post.class);
 		System.out.println(testObj);
+		System.out.println("Story tags: " + testObj.getStoryTags());
+		System.out.println("With tags: " + testObj.getWithTags());
 		System.out.println(testObj.getLikes().size() + " likes");
 		System.out.println(testObj.getComments().size() + " comments");
 		System.out.println(testObj.getInteractions().size() + " interactions");
