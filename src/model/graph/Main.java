@@ -50,6 +50,7 @@ public class Main {
 	private static void addInteractions()
 			throws JsonParseException, JsonMappingException, IOException {
 		List<Post> posts = retrievePosts();
+		System.out.println("Total posts:" + posts.size());
 		for (Post post : posts) {
 			for (Interaction interaction : post.getInteractions()) {
 				graph.addInteraction(interaction);
