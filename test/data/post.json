@@ -53,7 +53,16 @@
             "offset": 32,
             "length": 15
           }
-        ]
+        ],
+		"89": [
+          {
+            "id": "666",
+            "name": "diego",
+            "type": "user",
+            "offset": 89,
+            "length": 14
+          }
+		 ]
       },
       "actions": [
         {

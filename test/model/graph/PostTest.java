@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import model.fbdata.Comment;
+import model.fbdata.Interaction;
 import model.fbdata.Mention;
 import model.fbdata.Post;
 import model.fbdata.User;
@@ -81,7 +83,8 @@ public class PostTest {
 		List<Mention> messageTags = post.getMessageTags();
 		assertThat(messageTags, hasItem(mention(MURILLO)));
 		assertThat(messageTags, hasItem(mention(GUSTAVO)));
-		assertEquals(2, messageTags.size());
+		assertThat(messageTags, hasItem(mention(DIEGO)));
+		assertEquals(3, messageTags.size());
 	}
 
 	@Test
