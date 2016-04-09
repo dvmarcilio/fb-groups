@@ -6,18 +6,15 @@ import static org.hamcrest.CoreMatchers.*;
 import java.io.InputStream;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
 
 import model.fbdata.Mention;
 import model.fbdata.Post;
 import model.fbdata.User;
-import sun.invoke.empty.Empty;
 
 public class PostTest {
 
@@ -76,6 +73,13 @@ public class PostTest {
 		assertThat(messageTags, hasItem(mention(MURILLO)));
 		assertThat(messageTags, hasItem(mention(GUSTAVO)));
 		assertEquals(2, messageTags.size());
+	}
+
+	@Test
+	public void shouldHaveLikes() {
+		List<User> usersWhoLikedPost = post.getUsersWhoLiked();
+		assertThat(usersWhoLikedPost, hasItem(DIEGO));
+		assertEquals(1, usersWhoLikedPost.size());
 	}
 
 }

@@ -53,7 +53,7 @@ public class Post {
 		return postComments.getComments();
 	}
 
-	public List<User> getLikes() {
+	public List<User> getUsersWhoLiked() {
 		if (postLikes == null)
 			return Collections.emptyList();
 		return postLikes.getLikesFrom();
@@ -79,7 +79,7 @@ public class Post {
 
 	@Override
 	public String toString() {
-		return "Post [author=" + author + ", \nlikes=" + getLikes()
+		return "Post [author=" + author + ", \nlikes=" + getUsersWhoLiked()
 				+ ", \ncomments=" + getComments() + "]";
 	}
 
@@ -94,8 +94,8 @@ public class Post {
 
 	private Collection<Interaction> getLikesInteractions() {
 		List<Interaction> likesInteractions = new ArrayList<Interaction>(
-				getLikes().size());
-		for (User userWhoLiked : getLikes()) {
+				getUsersWhoLiked().size());
+		for (User userWhoLiked : getUsersWhoLiked()) {
 			likesInteractions
 					.add(new Interaction(userWhoLiked, author, Type.LIKE));
 		}
@@ -147,7 +147,7 @@ public class Post {
 		System.out.println("With tags: " + testObj.getWithTags());
 		System.out.println(testObj.getStoryTags().size() + " Story tags");
 		System.out.println(testObj.getWithTags().size() + " With tags");
-		System.out.println(testObj.getLikes().size() + " likes");
+		System.out.println(testObj.getUsersWhoLiked().size() + " likes");
 		System.out.println(testObj.getComments().size() + " comments");
 		System.out.println(testObj.getInteractions().size() + " interactions");
 		Collection<Interaction> postInteractions = testObj.getInteractions();
