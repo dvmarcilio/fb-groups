@@ -1,10 +1,14 @@
 package model.graph;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,11 +16,16 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import model.fbdata.Comment;
 import model.fbdata.Mention;
 import model.fbdata.Post;
 import model.fbdata.User;
 
 public class PostTest {
+
+	private static final int MURILLO_COMMENT_ID = 1111;
+
+	private static final long DIEGO_COMMENT_ID = 1000L;
 
 	private static final User GUSTAVO = new User(987L, "gustavo");
 
@@ -80,6 +89,33 @@ public class PostTest {
 		List<User> usersWhoLikedPost = post.getUsersWhoLiked();
 		assertThat(usersWhoLikedPost, hasItem(DIEGO));
 		assertEquals(1, usersWhoLikedPost.size());
+	}
+
+	@Test
+	public void shouldHaveComments() throws Exception {
+		assertEquals(2, post.getComments().size());
+	}
+
+	@Test
+	public void shouldHaveCommentFromDiegoTaggingMurillo() {
+		Comment comment = post.getComments().stream()
+				.filter(c -> c.getId() == DIEGO_COMMENT_ID)
+				.collect(Collectors.toList()).get(0);
+
+		assertThat(comment.getAuthor(), equalTo(DIEGO));
+
+		assertThat(comment.getMentions(), hasItem(mention(MURILLO)));
+		assertEquals(1, comment.getMentions().size());
+	}
+
+	@Test
+	public void shouldHaveCommentFromMurillo() {
+		Comment comment = post.getComments().stream()
+				.filter(c -> c.getId() == MURILLO_COMMENT_ID)
+				.collect(Collectors.toList()).get(0);
+
+		assertThat(comment.getAuthor(), equalTo(MURILLO));
+		assertTrue(comment.getMentions().isEmpty());
 	}
 
 }
