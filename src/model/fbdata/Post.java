@@ -18,6 +18,9 @@ import model.fbdata.Interaction.Type;
 
 public class Post {
 
+	@JsonProperty("id")
+	private String id;
+
 	@JsonProperty("from")
 	private User author;
 
@@ -32,6 +35,13 @@ public class Post {
 
 	@JsonProperty("with_tags")
 	private WithTags withTags;
+
+	@JsonProperty("message_tags")
+	private PostMessageTags messageTags;
+
+	public String getId() {
+		return id;
+	}
 
 	public User getAuthor() {
 		return author;
@@ -59,6 +69,12 @@ public class Post {
 		if (storyTags == null)
 			return Collections.emptyList();
 		return storyTags.getTags();
+	}
+
+	public List<Mention> getMessageTags() {
+		if (messageTags == null)
+			return Collections.emptyList();
+		return messageTags.getTags();
 	}
 
 	@Override
