@@ -26,7 +26,7 @@ public class Mention {
 
 	@Override
 	public String toString() {
-		return "Mention [id=" + id + ", name=" + name + "]";
+		return "Mention [User Mentioned=" + getUserMentioned() + "]";
 	}
 
 	public User getUserMentioned() {

@@ -67,26 +67,50 @@ public class Post {
 		List<Interaction> interactions = new LinkedList<Interaction>();
 		interactions.addAll(getLikesInteractions());
 		interactions.addAll(getCommentsInteractions());
+		interactions.addAll(getStoryTagsInteractions());
+		interactions.addAll(getWithTagsInteractions());
 		return interactions;
 	}
 
 	private Collection<Interaction> getLikesInteractions() {
-		List<Interaction> likes = new ArrayList<Interaction>(getLikes().size());
+		List<Interaction> likesInteractions = new ArrayList<Interaction>(
+				getLikes().size());
 		for (User userWhoLiked : getLikes()) {
-			likes.add(new Interaction(userWhoLiked, author, Type.LIKE));
+			likesInteractions
+					.add(new Interaction(userWhoLiked, author, Type.LIKE));
 		}
-		return likes;
+		return likesInteractions;
 	}
 
 	private Collection<Interaction> getCommentsInteractions() {
-		List<Interaction> comments = new ArrayList<Interaction>(
+		List<Interaction> commentsInteractions = new ArrayList<Interaction>(
 				getComments().size());
 		for (Comment comment : getComments()) {
-			comments.add(
+			commentsInteractions.add(
 					new Interaction(comment.getAuthor(), author, Type.COMMENT));
-			comments.addAll(comment.getMentionsInteractions());
+			commentsInteractions.addAll(comment.getMentionsInteractions());
 		}
-		return comments;
+		return commentsInteractions;
+	}
+
+	private Collection<Interaction> getStoryTagsInteractions() {
+		List<Interaction> storyTagsInteractions = new ArrayList<Interaction>(
+				getStoryTags().size());
+		for (Mention mention : getStoryTags()) {
+			storyTagsInteractions.add(new Interaction(author,
+					mention.getUserMentioned(), Type.MENTION));
+		}
+		return storyTagsInteractions;
+	}
+
+	private Collection<Interaction> getWithTagsInteractions() {
+		List<Interaction> withTagsInteractions = new ArrayList<Interaction>(
+				getWithTags().size());
+		for (Mention mention : getWithTags()) {
+			withTagsInteractions.add(new Interaction(author,
+					mention.getUserMentioned(), Type.MENTION));
+		}
+		return withTagsInteractions;
 	}
 
 	public static void main(String[] args)
@@ -101,6 +125,8 @@ public class Post {
 		System.out.println(testObj);
 		System.out.println("Story tags: " + testObj.getStoryTags());
 		System.out.println("With tags: " + testObj.getWithTags());
+		System.out.println(testObj.getStoryTags().size() + " Story tags");
+		System.out.println(testObj.getWithTags().size() + " With tags");
 		System.out.println(testObj.getLikes().size() + " likes");
 		System.out.println(testObj.getComments().size() + " comments");
 		System.out.println(testObj.getInteractions().size() + " interactions");

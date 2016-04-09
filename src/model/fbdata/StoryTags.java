@@ -17,4 +17,14 @@ public class StoryTags {
 	public void set(String id, List<Mention> mention) {
 		tags.addAll(mention);
 	}
+
+	@Override
+	public String toString() {
+		return "StoryTags [tags=" + tags + "]";
+	}
+
+	public int size() {
+		return tags.size();
+	}
+
 }
