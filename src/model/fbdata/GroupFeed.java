@@ -61,7 +61,7 @@ public class GroupFeed {
 
 	private static void printFeedRead(String fileName, GroupFeed feed) {
 		System.out.println("================================================");
-		System.out.println("File '" + fileName + JSON_EXTENSION + "'read.");
+		System.out.println("File '" + fileName + JSON_EXTENSION + "' read.");
 		System.out.println("Posts: " + feed.getPosts().size());
 		Long totalInteractions = feed.getPosts().stream()
 				.mapToLong(p -> p.getInteractions().size()).sum();

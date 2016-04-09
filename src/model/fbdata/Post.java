@@ -50,10 +50,14 @@ public class Post {
 	}
 
 	public List<Mention> getWithTags() {
+		if (withTags == null)
+			return Collections.emptyList();
 		return withTags.getTags();
 	}
 
 	public List<Mention> getStoryTags() {
+		if (storyTags == null)
+			return Collections.emptyList();
 		return storyTags.getTags();
 	}
 
