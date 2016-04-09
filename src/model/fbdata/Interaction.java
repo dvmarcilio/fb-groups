@@ -40,4 +40,8 @@ public class Interaction {
 				+ "]";
 	}
 
+	public boolean isSelfInteraction() {
+		return to.equals(from);
+	}
+
 }
