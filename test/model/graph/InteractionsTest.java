@@ -25,17 +25,19 @@ public class InteractionsTest {
 	@Test
 	public void addingCommentAddsTotalsCorrectly() throws Exception {
 		interactions.add(Type.COMMENT);
-		assertEquals(previousTotalMentions, interactions.getTotalMentions());
-		assertEquals(1, interactions.getTotalComments());
-		assertEquals(1, interactions.getTotal());
+		assertEquals(previousTotalMentions,
+				(int) interactions.getTotalMentions());
+		assertEquals(1, (int) interactions.getTotalComments());
+		assertEquals(1, (int) interactions.getTotal());
 	}
 
 	@Test
 	public void addingMentionAddsTotalsCorrectly() throws Exception {
 		interactions.add(Type.MENTION);
-		assertEquals(previousTotalComments, interactions.getTotalComments());
-		assertEquals(1, interactions.getTotalMentions());
-		assertEquals(1, interactions.getTotal());
+		assertEquals(previousTotalComments,
+				(int) interactions.getTotalComments());
+		assertEquals(1, (int) interactions.getTotalMentions());
+		assertEquals(1, (int) interactions.getTotal());
 	}
 
 }
