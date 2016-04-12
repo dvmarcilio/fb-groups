@@ -26,16 +26,16 @@ public class NodeTest {
 	public void interactingNodeOnlyIncreasesOutDegree() throws Exception {
 		n1.addInteractionWith(n2, Interaction.Type.MENTION);
 
-		assertEquals(0, n1.getInDegree());
-		assertEquals(1, n1.getOutDegree());
+		assertEquals(0, n1.getInDegree().intValue());
+		assertEquals(1, n1.getOutDegree().intValue());
 	}
 
 	@Test
 	public void interactedNodeOnlyIncreasesInDegree() throws Exception {
 		n1.addInteractionWith(n2, Interaction.Type.MENTION);
 
-		assertEquals(1, n2.getInDegree());
-		assertEquals(0, n2.getOutDegree());
+		assertEquals(1, n2.getInDegree().intValue());
+		assertEquals(0, n2.getOutDegree().intValue());
 	}
 
 }
