@@ -13,8 +13,16 @@ public class GroupNetworkGraph {
 
 	private Integer numEdges = 0;
 
-	public void addNode(User user) {
-		nodes.put(user, new Node(user));
+	/**
+	 * @return <tt>true</tt> if the node was added successfully, <tt>false</tt>
+	 *         otherwise
+	 */
+	public boolean addNode(User user) {
+		if (!nodes.containsKey(user)) {
+			nodes.put(user, new Node(user));
+			return true;
+		}
+		return false;
 	}
 
 	public void addInteraction(Interaction interaction) {
@@ -41,6 +49,10 @@ public class GroupNetworkGraph {
 
 	public boolean hasNodeForUser(User user) {
 		return nodes.containsKey(user);
+	}
+
+	public Node getUserNode(User user) {
+		return nodes.get(user);
 	}
 
 	public Integer getNumEdges() {
