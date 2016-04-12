@@ -1,4 +1,4 @@
-package model;
+package model.fbdata;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +13,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import model.fbdata.Interaction.Type;
 
 public class Post {
 
@@ -41,7 +43,6 @@ public class Post {
 		return postLikes.getLikesFrom();
 	}
 
-
 	@Override
 	public String toString() {
 		return "Post [author=" + author + ", \nlikes=" + getLikes()
@@ -56,10 +57,9 @@ public class Post {
 	}
 
 	private Collection<Interaction> getLikesInteractions() {
-		List<Interaction> likes = new ArrayList<Interaction>(
-				getLikes().size());
+		List<Interaction> likes = new ArrayList<Interaction>(getLikes().size());
 		for (User userWhoLiked : getLikes()) {
-			likes.add(new Interaction(userWhoLiked, author));
+			likes.add(new Interaction(userWhoLiked, author, Type.LIKE));
 		}
 		return likes;
 	}
@@ -68,7 +68,8 @@ public class Post {
 		List<Interaction> comments = new ArrayList<Interaction>(
 				getComments().size());
 		for (Comment comment : getComments()) {
-			comments.add(new Interaction(comment.getAuthor(), author));
+			comments.add(
+					new Interaction(comment.getAuthor(), author, Type.COMMENT));
 			comments.addAll(comment.getMentionsInteractions());
 		}
 		return comments;

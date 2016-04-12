@@ -1,4 +1,4 @@
-package model;
+package model.fbdata;
 
 import java.util.Collections;
 import java.util.List;
