@@ -23,6 +23,8 @@ import model.fbdata.User;
 
 public class PostTest {
 
+	private static final String POST_ID = "groupId_postId";
+
 	private static final int MURILLO_COMMENT_ID = 1111;
 
 	private static final long DIEGO_COMMENT_ID = 1000L;
@@ -49,17 +51,17 @@ public class PostTest {
 	}
 
 	@Test
-	public void parsesTheID() {
-		assertEquals("groupId_postId", post.getId());
+	public void shouldParsePostIdCorrectly() {
+		assertEquals(POST_ID, post.getId());
 	}
 
 	@Test
-	public void parsesTheAuthor() {
+	public void shouldParsePostAuthorCorrectly() {
 		assertEquals(DIEGO, post.getAuthor());
 	}
 
 	@Test
-	public void shouldHaveWithTags() {
+	public void shouldHaveAllWithTags() {
 		List<Mention> withTags = post.getWithTags();
 		assertThat(withTags, hasItem(mention(MURILLO)));
 		assertThat(withTags, hasItem(mention(GUSTAVO)));
@@ -77,7 +79,7 @@ public class PostTest {
 	}
 
 	@Test
-	public void shouldHaveMessageTags() {
+	public void shouldHaveAllMessageTags() {
 		List<Mention> messageTags = post.getMessageTags();
 		assertThat(messageTags, hasItem(mention(MURILLO)));
 		assertThat(messageTags, hasItem(mention(GUSTAVO)));
@@ -86,14 +88,14 @@ public class PostTest {
 	}
 
 	@Test
-	public void shouldHaveLikes() {
+	public void shouldHaveAllLikes() {
 		List<User> usersWhoLikedPost = post.getUsersWhoLiked();
 		assertThat(usersWhoLikedPost, hasItem(DIEGO));
 		assertEquals(1, usersWhoLikedPost.size());
 	}
 
 	@Test
-	public void shouldHaveComments() throws Exception {
+	public void shouldHaveAllComments() throws Exception {
 		assertEquals(2, post.getComments().size());
 	}
 
