@@ -22,26 +22,34 @@ public class Node {
 
 	public void addInteractionWith(Node interactedNode,
 			Interaction.Type interactionType) {
-		if (!neighborsInteractedWith.containsKey(interactedNode)) {
-			Interactions interactions = new Interactions();
-			interactions.add(interactionType);
-			neighborsInteractedWith.put(interactedNode, interactions);
-		} else {
-			Interactions interactions = neighborsInteractedWith
-					.get(interactedNode);
-			interactions.add(interactionType);
-		}
-
+		addInteraction(interactedNode, interactionType);
 		outDegree += 1;
-		interactedNode.interactedWith();
+		interactedNode.inDegree += 1;
+	}
+
+	private void addInteraction(Node interactedNode,
+			Interaction.Type interactionType) {
+		if (!neighborsInteractedWith.containsKey(interactedNode))
+			addInteractionWithNewNeighbor(interactedNode, interactionType);
+		else
+			addInteractionToExistentNeighbor(interactedNode, interactionType);
+	}
+
+	private void addInteractionWithNewNeighbor(Node interactedNode,
+			Interaction.Type interactionType) {
+		Interactions interactions = new Interactions();
+		interactions.add(interactionType);
+		neighborsInteractedWith.put(interactedNode, interactions);
+	}
+
+	private void addInteractionToExistentNeighbor(Node interactedNode,
+			Interaction.Type interactionType) {
+		Interactions interactions = neighborsInteractedWith.get(interactedNode);
+		interactions.add(interactionType);
 	}
 
 	public Set<Node> getNeighbors() {
 		return neighborsInteractedWith.keySet();
-	}
-
-	private void interactedWith() {
-		inDegree += 1;
 	}
 
 	public Integer getInDegree() {
