@@ -1,7 +1,6 @@
 package model.graph;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
