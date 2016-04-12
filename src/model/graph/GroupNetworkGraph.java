@@ -18,21 +18,17 @@ public class GroupNetworkGraph {
 	}
 
 	public void addInteraction(Interaction interaction) {
-		Node nodeFrom = nodes.get(interaction.getFrom());
-		Node nodeTo = nodes.get(interaction.getTo());
-
-		// FIXME Apparently my User export didn't get everyone.
-		if (nodeFrom == null) {
-			addNode(interaction.getFrom());
-			nodeFrom = nodes.get(interaction.getFrom());
-		}
-		if (nodeTo == null) {
-			addNode(interaction.getTo());
-			nodeTo = nodes.get(interaction.getTo());
-		}
-
+		Node nodeFrom = retrieveUserNode(interaction.getFrom());
+		Node nodeTo = retrieveUserNode(interaction.getTo());
 		nodeFrom.addInteractionWith(nodeTo, interaction.getType());
 		numEdges += 1;
+	}
+
+	private Node retrieveUserNode(User user) {
+		if (!nodes.containsKey(user)) {
+			addNode(user);
+		}
+		return nodes.get(user);
 	}
 
 	public Set<User> getUsers() {
@@ -41,6 +37,10 @@ public class GroupNetworkGraph {
 
 	public Collection<Node> getNodes() {
 		return nodes.values();
+	}
+
+	public boolean hasNodeForUser(User user) {
+		return nodes.containsKey(user);
 	}
 
 	public Integer getNumEdges() {
