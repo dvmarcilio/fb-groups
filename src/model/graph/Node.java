@@ -16,11 +16,11 @@ public class Node {
 
 	private HashMap<Node, Interactions> neighborsInteractedWith = new HashMap<>();
 
-	public Node(User user) {
+	protected Node(User user) {
 		this.user = user;
 	}
 
-	public void addInteractionWith(Node interactedNode,
+	protected void addInteractionWith(Node interactedNode,
 			Interaction.Type interactionType) {
 		addInteraction(interactedNode, interactionType);
 		outDegree += 1;
