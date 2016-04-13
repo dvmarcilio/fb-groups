@@ -23,38 +23,34 @@ public class Comment {
 	private User author;
 
 	@JsonProperty("message_tags")
-	private List<Mention> mentions = Collections.emptyList();
+	private List<Tag> tags = Collections.emptyList();
 
 	public User getAuthor() {
 		return author;
 	}
 
-	public List<Mention> getMentions() {
-		return mentions;
-	}
-
-	public void setMentions(List<Mention> mentions) {
-		this.mentions = mentions;
+	public List<Tag> getTags() {
+		return tags;
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public Collection<Interaction> getMentionsInteractions() {
+	public Collection<Interaction> getTagsInteractions() {
 		List<Interaction> interactions = new ArrayList<Interaction>(
-				mentions.size());
-		for (Mention mention : mentions) {
-			interactions.add(new Interaction(author, mention.getUserMentioned(),
-					Type.MENTION));
+				tags.size());
+		for (Tag tag : tags) {
+			interactions.add(
+					new Interaction(author, tag.getUserTagged(), Type.MENTION));
 		}
 		return interactions;
 	}
 
 	@Override
 	public String toString() {
-		return "Comment [id=" + id + ", author=" + author + ", mentions="
-				+ mentions + "]";
+		return "Comment [id=" + id + ", author=" + author + ", tags=" + tags
+				+ "]";
 	}
 
 	public static void main(String[] args)
@@ -67,7 +63,7 @@ public class Comment {
 				.getResourceAsStream("/data/comment_teste.json");
 		Comment testObj = mapper.readValue(is, Comment.class);
 		System.out.println(testObj);
-		System.out.println(testObj.getMentionsInteractions());
+		System.out.println(testObj.getTagsInteractions());
 	}
 
 }
