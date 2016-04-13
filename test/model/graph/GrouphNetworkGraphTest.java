@@ -16,6 +16,21 @@ public class GrouphNetworkGraphTest {
 	private User u2 = new User(2L, "2");
 
 	@Test
+	public void shouldReturnTrueWhenAddingAnInteraction() {
+		boolean successfullyAdded = graph
+				.addInteraction(commentFromUser1ToUser2());
+		assertTrue(successfullyAdded);
+	}
+
+	@Test
+	public void shouldReturnFalseAndNotAddSelfInteraction() {
+		boolean successfullyAdded = graph
+				.addInteraction(new Interaction(u1, u1, Type.LIKE));
+		assertFalse(successfullyAdded);
+		assertEquals(0, graph.getNumEdges().intValue());
+	}
+
+	@Test
 	public void shouldCreateNodesIfTheyDontExistWhenAddingAnInteraction() {
 		graph.addInteraction(commentFromUser1ToUser2());
 

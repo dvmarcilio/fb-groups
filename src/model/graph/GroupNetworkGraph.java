@@ -25,7 +25,21 @@ public class GroupNetworkGraph {
 		return false;
 	}
 
-	public void addInteraction(Interaction interaction) {
+	/**
+	 * Does not add self-interactions.
+	 * 
+	 * @return <tt>true</tt> if the interaction was added successfully,
+	 *         <tt>false</tt> otherwise.
+	 */
+	public boolean addInteraction(Interaction interaction) {
+		if (!interaction.isSelfInteraction()) {
+			doAddInteraction(interaction);
+			return true;
+		}
+		return false;
+	}
+
+	private void doAddInteraction(Interaction interaction) {
 		Node nodeFrom = retrieveUserNode(interaction.getFrom());
 		Node nodeTo = retrieveUserNode(interaction.getTo());
 		nodeFrom.addInteractionWith(nodeTo, interaction.getType());
