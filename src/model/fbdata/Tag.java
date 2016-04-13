@@ -10,17 +10,17 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Mention {
+public class Tag {
 
 	private Long id;
 
 	private String name;
 
-	public Mention() {
+	public Tag() {
 
 	}
 
-	public Mention(User user) {
+	public Tag(User user) {
 		id = user.getId();
 		name = user.getName();
 	}
@@ -35,10 +35,10 @@ public class Mention {
 
 	@Override
 	public String toString() {
-		return "Mention [User Mentioned=" + getUserMentioned() + "]";
+		return "Tag [User Tagged=" + getUserTagged() + "]";
 	}
 
-	public User getUserMentioned() {
+	public User getUserTagged() {
 		return new User(id, name);
 	}
 
@@ -59,7 +59,7 @@ public class Mention {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Mention other = (Mention) obj;
+		Tag other = (Tag) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -79,11 +79,11 @@ public class Mention {
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
 				false);
 
-		InputStream is = Mention.class
+		InputStream is = Tag.class
 				.getResourceAsStream("/data/mentions_test.json");
 
-		List<Mention> testObj = mapper.readValue(is,
-				new TypeReference<List<Mention>>() {
+		List<Tag> testObj = mapper.readValue(is,
+				new TypeReference<List<Tag>>() {
 				});
 		System.out.println(testObj);
 	}
