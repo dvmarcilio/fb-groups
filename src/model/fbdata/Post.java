@@ -18,6 +18,9 @@ import model.fbdata.Interaction.Type;
 
 public class Post {
 
+	@JsonProperty("id")
+	private String id;
+
 	@JsonProperty("from")
 	private User author;
 
@@ -26,6 +29,19 @@ public class Post {
 
 	@JsonProperty("likes")
 	private PostLikes postLikes;
+
+	@JsonProperty("story_tags")
+	private StoryTags storyTags;
+
+	@JsonProperty("with_tags")
+	private WithTags withTags;
+
+	@JsonProperty("message_tags")
+	private PostMessageTags messageTags;
+
+	public String getId() {
+		return id;
+	}
 
 	public User getAuthor() {
 		return author;
@@ -37,15 +53,33 @@ public class Post {
 		return postComments.getComments();
 	}
 
-	public List<User> getLikes() {
+	public List<User> getUsersWhoLiked() {
 		if (postLikes == null)
 			return Collections.emptyList();
 		return postLikes.getLikesFrom();
 	}
 
+	public List<Mention> getWithTags() {
+		if (withTags == null)
+			return Collections.emptyList();
+		return withTags.getTags();
+	}
+
+	public List<Mention> getStoryTags() {
+		if (storyTags == null)
+			return Collections.emptyList();
+		return storyTags.getTags();
+	}
+
+	public List<Mention> getMessageTags() {
+		if (messageTags == null)
+			return Collections.emptyList();
+		return messageTags.getTags();
+	}
+
 	@Override
 	public String toString() {
-		return "Post [author=" + author + ", \nlikes=" + getLikes()
+		return "Post [author=" + author + ", \nlikes=" + getUsersWhoLiked()
 				+ ", \ncomments=" + getComments() + "]";
 	}
 
@@ -53,26 +87,50 @@ public class Post {
 		List<Interaction> interactions = new LinkedList<Interaction>();
 		interactions.addAll(getLikesInteractions());
 		interactions.addAll(getCommentsInteractions());
+		interactions.addAll(getStoryTagsInteractions());
+		interactions.addAll(getWithTagsInteractions());
 		return interactions;
 	}
 
 	private Collection<Interaction> getLikesInteractions() {
-		List<Interaction> likes = new ArrayList<Interaction>(getLikes().size());
-		for (User userWhoLiked : getLikes()) {
-			likes.add(new Interaction(userWhoLiked, author, Type.LIKE));
+		List<Interaction> likesInteractions = new ArrayList<Interaction>(
+				getUsersWhoLiked().size());
+		for (User userWhoLiked : getUsersWhoLiked()) {
+			likesInteractions
+					.add(new Interaction(userWhoLiked, author, Type.LIKE));
 		}
-		return likes;
+		return likesInteractions;
 	}
 
 	private Collection<Interaction> getCommentsInteractions() {
-		List<Interaction> comments = new ArrayList<Interaction>(
+		List<Interaction> commentsInteractions = new ArrayList<Interaction>(
 				getComments().size());
 		for (Comment comment : getComments()) {
-			comments.add(
+			commentsInteractions.add(
 					new Interaction(comment.getAuthor(), author, Type.COMMENT));
-			comments.addAll(comment.getMentionsInteractions());
+			commentsInteractions.addAll(comment.getMentionsInteractions());
 		}
-		return comments;
+		return commentsInteractions;
+	}
+
+	private Collection<Interaction> getStoryTagsInteractions() {
+		List<Interaction> storyTagsInteractions = new ArrayList<Interaction>(
+				getStoryTags().size());
+		for (Mention mention : getStoryTags()) {
+			storyTagsInteractions.add(new Interaction(author,
+					mention.getUserMentioned(), Type.MENTION));
+		}
+		return storyTagsInteractions;
+	}
+
+	private Collection<Interaction> getWithTagsInteractions() {
+		List<Interaction> withTagsInteractions = new ArrayList<Interaction>(
+				getWithTags().size());
+		for (Mention mention : getWithTags()) {
+			withTagsInteractions.add(new Interaction(author,
+					mention.getUserMentioned(), Type.MENTION));
+		}
+		return withTagsInteractions;
 	}
 
 	public static void main(String[] args)
@@ -81,10 +139,15 @@ public class Post {
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
 				false);
 
-		InputStream is = Post.class.getResourceAsStream("/data/post_big.json");
+		InputStream is = Post.class
+				.getResourceAsStream("/data/post_with_mentions.json");
 		Post testObj = mapper.readValue(is, Post.class);
 		System.out.println(testObj);
-		System.out.println(testObj.getLikes().size() + " likes");
+		System.out.println("Story tags: " + testObj.getStoryTags());
+		System.out.println("With tags: " + testObj.getWithTags());
+		System.out.println(testObj.getStoryTags().size() + " Story tags");
+		System.out.println(testObj.getWithTags().size() + " With tags");
+		System.out.println(testObj.getUsersWhoLiked().size() + " likes");
 		System.out.println(testObj.getComments().size() + " comments");
 		System.out.println(testObj.getInteractions().size() + " interactions");
 		Collection<Interaction> postInteractions = testObj.getInteractions();

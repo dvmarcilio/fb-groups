@@ -25,7 +25,6 @@ public class NodeTest {
 	@Test
 	public void shouldOnlyIncreaseInteractingNodeOutDegree() throws Exception {
 		n1.addInteractionWith(n2, Interaction.Type.MENTION);
-
 		assertEquals(0, n1.getInDegree().intValue());
 		assertEquals(1, n1.getOutDegree().intValue());
 	}
@@ -33,7 +32,6 @@ public class NodeTest {
 	@Test
 	public void shouldOnlyIncreaseInteractedNodeInDegree() throws Exception {
 		n1.addInteractionWith(n2, Interaction.Type.MENTION);
-
 		assertEquals(1, n2.getInDegree().intValue());
 		assertEquals(0, n2.getOutDegree().intValue());
 	}
