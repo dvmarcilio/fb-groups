@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.acl.Group;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -27,6 +28,7 @@ public class Main {
 		addInteractions();
 		FunWithBasicStats stats = new FunWithBasicStats(graph);
 		stats.show();
+		printUsersNotInTheGroupAnymore();
 	}
 
 	private static void setUpMapper() {
@@ -35,7 +37,9 @@ public class Main {
 	}
 
 	private static void addUsers() throws Exception {
-		retrieveUsers().forEach(u -> graph.addNode(u));
+		final List<User> users = retrieveUsers();
+		System.out.println("Users: " + users.size());
+		users.forEach(u -> graph.addNode(u));
 	}
 
 	private static List<User> retrieveUsers()
@@ -52,6 +56,16 @@ public class Main {
 		System.out.println("Total posts:" + posts.size());
 		posts.forEach(
 				p -> p.getInteractions().forEach(i -> graph.addInteraction(i)));
+	}
+
+	private static void printUsersNotInTheGroupAnymore()
+			throws JsonParseException, JsonMappingException, IOException {
+		Set<User> usersNotInMembersJson = graph.getUsers();
+		usersNotInMembersJson.removeAll(retrieveUsers());
+		System.out.println(
+				"Users with Facebook probably deleted or not in the group anymore: "
+						+ usersNotInMembersJson.size());
+		System.out.println(usersNotInMembersJson);
 	}
 
 }

@@ -31,6 +31,10 @@ public class GrouphNetworkGraphTest {
 	}
 
 	@Test
+	// This actually happens because some users might have deleted their profile
+	// or they are not in the group anymore, but they were at some point.
+	// Even if not technically in the group, in both situations they are still
+	// present in the Group Feed.
 	public void shouldCreateNodesIfTheyDontExistWhenAddingAnInteraction() {
 		graph.addInteraction(commentFromUser1ToUser2());
 
