@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import model.fbdata.Comment;
-import model.fbdata.Mention;
+import model.fbdata.Tag;
 import model.fbdata.Post;
 import model.fbdata.User;
 
@@ -62,28 +62,28 @@ public class PostTest {
 
 	@Test
 	public void shouldHaveAllWithTags() {
-		List<Mention> withTags = post.getWithTags();
-		assertThat(withTags, hasItem(mention(MURILLO)));
-		assertThat(withTags, hasItem(mention(GUSTAVO)));
+		List<Tag> withTags = post.getWithTags();
+		assertThat(withTags, hasItem(tag(MURILLO)));
+		assertThat(withTags, hasItem(tag(GUSTAVO)));
 		assertEquals(2, withTags.size());
 	}
 
-	private Mention mention(User to) {
-		return new Mention(to);
+	private Tag tag(User to) {
+		return new Tag(to);
 	}
 
 	@Test
 	public void shouldHaveNoStoryTags() throws Exception {
-		List<Mention> storyTags = post.getStoryTags();
+		List<Tag> storyTags = post.getStoryTags();
 		assertTrue(storyTags.isEmpty());
 	}
 
 	@Test
 	public void shouldHaveAllMessageTags() {
-		List<Mention> messageTags = post.getMessageTags();
-		assertThat(messageTags, hasItem(mention(MURILLO)));
-		assertThat(messageTags, hasItem(mention(GUSTAVO)));
-		assertThat(messageTags, hasItem(mention(DIEGO)));
+		List<Tag> messageTags = post.getMessageTags();
+		assertThat(messageTags, hasItem(tag(MURILLO)));
+		assertThat(messageTags, hasItem(tag(GUSTAVO)));
+		assertThat(messageTags, hasItem(tag(DIEGO)));
 		assertEquals(3, messageTags.size());
 	}
 
@@ -107,8 +107,8 @@ public class PostTest {
 
 		assertThat(comment.getAuthor(), equalTo(DIEGO));
 
-		assertThat(comment.getMentions(), hasItem(mention(MURILLO)));
-		assertEquals(1, comment.getMentions().size());
+		assertThat(comment.getTags(), hasItem(tag(MURILLO)));
+		assertEquals(1, comment.getTags().size());
 	}
 
 	@Test
@@ -118,7 +118,7 @@ public class PostTest {
 				.collect(Collectors.toList()).get(0);
 
 		assertThat(comment.getAuthor(), equalTo(MURILLO));
-		assertTrue(comment.getMentions().isEmpty());
+		assertTrue(comment.getTags().isEmpty());
 	}
 
 	@Test

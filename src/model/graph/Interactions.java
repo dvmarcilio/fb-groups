@@ -6,7 +6,7 @@ public class Interactions {
 
 	private Integer total = 0;
 	private Integer totalComments = 0;
-	private Integer totalMentions = 0;
+	private Integer totalTags = 0;
 	private Integer totalLikes = 0;
 
 	public void add(Interaction.Type interactionType) {
@@ -19,8 +19,8 @@ public class Interactions {
 		case COMMENT:
 			totalComments += 1;
 			break;
-		case MENTION:
-			totalMentions += 1;
+		case TAG:
+			totalTags += 1;
 			break;
 		case LIKE:
 			totalLikes += 1;
@@ -35,8 +35,8 @@ public class Interactions {
 		return totalComments;
 	}
 
-	public Integer getTotalMentions() {
-		return totalMentions;
+	public Integer getTotalTags() {
+		return totalTags;
 	}
 
 	public Integer getTotalLikes() {

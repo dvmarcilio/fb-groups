@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class WithTags {
 
 	@JsonProperty("data")
-	private List<Mention> tags = Collections.emptyList();
+	private List<Tag> tags = Collections.emptyList();
 
-	public List<Mention> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
@@ -18,7 +18,7 @@ public class WithTags {
 	public String toString() {
 		return "WithTags [tags=" + tags + "]";
 	}
-	
+
 	public int size() {
 		return tags.size();
 	}

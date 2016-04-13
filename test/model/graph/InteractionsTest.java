@@ -13,30 +13,29 @@ public class InteractionsTest {
 	private Interactions interactions;
 
 	private int previousTotalComments;
-	private int previousTotalMentions;
+	private int previousTotalTags;
 
 	@Before
 	public void setUp() {
 		interactions = new Interactions();
 		previousTotalComments = 0;
-		previousTotalMentions = 0;
+		previousTotalTags = 0;
 	}
 
 	@Test
 	public void shouldAddTotalCorrectlyWhenAddingComments() throws Exception {
 		interactions.add(Type.COMMENT);
-		assertEquals(previousTotalMentions,
-				interactions.getTotalMentions().intValue());
+		assertEquals(previousTotalTags, interactions.getTotalTags().intValue());
 		assertEquals(1, interactions.getTotalComments().intValue());
 		assertEquals(1, interactions.getTotal().intValue());
 	}
 
 	@Test
-	public void shouldAddTotalCorrectlyWhenAddingMentions() throws Exception {
-		interactions.add(Type.MENTION);
+	public void shouldAddTotalCorrectlyWhenAddingTags() throws Exception {
+		interactions.add(Type.TAG);
 		assertEquals(previousTotalComments,
 				interactions.getTotalComments().intValue());
-		assertEquals(1, interactions.getTotalMentions().intValue());
+		assertEquals(1, interactions.getTotalTags().intValue());
 		assertEquals(1, interactions.getTotal().intValue());
 	}
 
