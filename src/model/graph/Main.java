@@ -2,6 +2,7 @@ package model.graph;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.acl.Group;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -34,9 +35,7 @@ public class Main {
 	}
 
 	private static void addUsers() throws Exception {
-		for (User user : retrieveUsers()) {
-			graph.addNode(user);
-		}
+		retrieveUsers().forEach(u -> graph.addNode(u));
 	}
 
 	private static List<User> retrieveUsers()
@@ -49,21 +48,10 @@ public class Main {
 
 	private static void addInteractions()
 			throws JsonParseException, JsonMappingException, IOException {
-		List<Post> posts = retrievePosts();
+		List<Post> posts = GroupFeed.retrieveAllPosts();
 		System.out.println("Total posts:" + posts.size());
-		for (Post post : posts) {
-			for (Interaction interaction : post.getInteractions()) {
-				graph.addInteraction(interaction);
-			}
-		}
-	}
-
-	private static List<Post> retrievePosts()
-			throws IOException, JsonParseException, JsonMappingException {
-		InputStream is = GroupFeed.class
-				.getResourceAsStream("/data/maristao.json");
-		return mapper.readValue(is, mapper.getTypeFactory()
-				.constructCollectionLikeType(List.class, Post.class));
+		posts.forEach(
+				p -> p.getInteractions().forEach(i -> graph.addInteraction(i)));
 	}
 
 }
