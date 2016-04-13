@@ -1,6 +1,6 @@
 # fb-groups
 
-## Data origin
+## Data
 Using Facebook Graph API v2.3 one is able to acquire data from an User's group.
 Of course this is possible only if you have being granted the _user\_groups_ permission. 
 Anyways, since Graph API v2.4 the [_user\_groups_ permission is deprecated](https://developers.facebook.com/docs/apps/changelog#v2_4_deprecations). This deprecation means you can only get data from a group managed by the user, through _user\_managed_groups_ permission.
