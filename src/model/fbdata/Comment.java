@@ -42,7 +42,7 @@ public class Comment {
 				tags.size());
 		for (Tag tag : tags) {
 			interactions.add(
-					new Interaction(author, tag.getUserTagged(), Type.MENTION));
+					new Interaction(author, tag.getUserTagged(), Type.TAG));
 		}
 		return interactions;
 	}

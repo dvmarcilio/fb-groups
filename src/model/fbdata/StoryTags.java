@@ -7,15 +7,15 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 public class StoryTags {
 
-	private List<Mention> tags = new LinkedList<>();
+	private List<Tag> tags = new LinkedList<>();
 
-	public List<Mention> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
 	@JsonAnySetter
-	public void set(String id, List<Mention> mention) {
-		tags.addAll(mention);
+	public void set(String id, List<Tag> tag) {
+		tags.addAll(tag);
 	}
 
 	@Override

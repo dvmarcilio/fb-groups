@@ -59,19 +59,19 @@ public class Post {
 		return postLikes.getLikesFrom();
 	}
 
-	public List<Mention> getWithTags() {
+	public List<Tag> getWithTags() {
 		if (withTags == null)
 			return Collections.emptyList();
 		return withTags.getTags();
 	}
 
-	public List<Mention> getStoryTags() {
+	public List<Tag> getStoryTags() {
 		if (storyTags == null)
 			return Collections.emptyList();
 		return storyTags.getTags();
 	}
 
-	public List<Mention> getMessageTags() {
+	public List<Tag> getMessageTags() {
 		if (messageTags == null)
 			return Collections.emptyList();
 		return messageTags.getTags();
@@ -108,7 +108,7 @@ public class Post {
 		for (Comment comment : getComments()) {
 			commentsInteractions.add(
 					new Interaction(comment.getAuthor(), author, Type.COMMENT));
-			commentsInteractions.addAll(comment.getMentionsInteractions());
+			commentsInteractions.addAll(comment.getTagsInteractions());
 		}
 		return commentsInteractions;
 	}
@@ -116,9 +116,9 @@ public class Post {
 	private Collection<Interaction> getStoryTagsInteractions() {
 		List<Interaction> storyTagsInteractions = new ArrayList<Interaction>(
 				getStoryTags().size());
-		for (Mention mention : getStoryTags()) {
-			storyTagsInteractions.add(new Interaction(author,
-					mention.getUserMentioned(), Type.MENTION));
+		for (Tag tag : getStoryTags()) {
+			storyTagsInteractions.add(
+					new Interaction(author, tag.getUserTagged(), Type.TAG));
 		}
 		return storyTagsInteractions;
 	}
@@ -126,9 +126,9 @@ public class Post {
 	private Collection<Interaction> getWithTagsInteractions() {
 		List<Interaction> withTagsInteractions = new ArrayList<Interaction>(
 				getWithTags().size());
-		for (Mention mention : getWithTags()) {
-			withTagsInteractions.add(new Interaction(author,
-					mention.getUserMentioned(), Type.MENTION));
+		for (Tag tag : getWithTags()) {
+			withTagsInteractions.add(
+					new Interaction(author, tag.getUserTagged(), Type.TAG));
 		}
 		return withTagsInteractions;
 	}

@@ -9,7 +9,7 @@ public class Interaction {
 	private Type type;
 
 	public enum Type {
-		COMMENT, MENTION, LIKE;
+		COMMENT, TAG, LIKE;
 	}
 
 	public Interaction() {
