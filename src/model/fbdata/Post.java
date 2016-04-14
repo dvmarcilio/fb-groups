@@ -133,6 +133,12 @@ public class Post {
 		return withTagsInteractions;
 	}
 
+	public Long getGroupID() {
+		int endOfGroupIDIndex = id.indexOf("_");
+		String groupId = id.substring(0, endOfGroupIDIndex);
+		return Long.parseLong(groupId);
+	}
+
 	public static void main(String[] args)
 			throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();

@@ -49,6 +49,11 @@ public class PostTest {
 	}
 
 	@Test
+	public void shouldReturnTheCorrectGroupID() {
+		assertEquals(GROUP_ID, post.getGroupID());
+	}
+	
+	@Test
 	public void shouldHaveAllWithTags() {
 		List<Tag> withTags = post.getWithTags();
 		assertThat(withTags, hasItem(tag(MURILLO)));
