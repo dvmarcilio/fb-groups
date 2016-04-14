@@ -2,7 +2,6 @@ package model.graph;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.acl.Group;
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +11,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import model.fbdata.GroupFeed;
-import model.fbdata.Interaction;
 import model.fbdata.Post;
 import model.fbdata.User;
 
@@ -23,12 +21,15 @@ public class Main {
 	private static GroupNetworkGraph graph = new GroupNetworkGraph();
 
 	public static void main(String[] args) throws Exception {
+		loadTheGraph();
+		showStats();
+	}
+
+	private static void loadTheGraph() throws Exception, JsonParseException,
+			JsonMappingException, IOException {
 		setUpMapper();
 		addUsers();
 		addInteractions();
-		FunWithBasicStats stats = new FunWithBasicStats(graph);
-		stats.show();
-		printUsersNotInTheGroupAnymore();
 	}
 
 	private static void setUpMapper() {
@@ -56,6 +57,13 @@ public class Main {
 		System.out.println("Total posts:" + posts.size());
 		posts.forEach(
 				p -> p.getInteractions().forEach(i -> graph.addInteraction(i)));
+	}
+
+	private static void showStats()
+			throws JsonParseException, JsonMappingException, IOException {
+		FunWithBasicStats stats = new FunWithBasicStats(graph);
+		stats.show();
+		printUsersNotInTheGroupAnymore();
 	}
 
 	private static void printUsersNotInTheGroupAnymore()
