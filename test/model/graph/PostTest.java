@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import static model.graph.JSONTestFileData.*;
+
 import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,20 +25,6 @@ import model.fbdata.User;
 
 public class PostTest {
 
-	private static final String POST_ID = "groupId_postId";
-
-	private static final int MURILLO_COMMENT_ID = 1111;
-
-	private static final long DIEGO_COMMENT_ID = 1000L;
-
-	private static final User GUSTAVO = new User(987L, "gustavo");
-
-	private static final User MURILLO = new User(123L, "murillo");
-
-	private static final User DIEGO = new User(666L, "diego");
-
-	private static final String JSON_FILE_PATH = "/data/post.json";
-
 	private static Post post;
 
 	private static ObjectMapper mapper;
@@ -46,13 +34,13 @@ public class PostTest {
 		mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
 				false);
-		InputStream is = PostTest.class.getResourceAsStream(JSON_FILE_PATH);
+		InputStream is = PostTest.class.getResourceAsStream(POST_FILE_PATH);
 		post = mapper.readValue(is, Post.class);
 	}
 
 	@Test
 	public void shouldParsePostIdCorrectly() {
-		assertEquals(POST_ID, post.getId());
+		assertEquals(POST_ID_1, post.getId());
 	}
 
 	@Test

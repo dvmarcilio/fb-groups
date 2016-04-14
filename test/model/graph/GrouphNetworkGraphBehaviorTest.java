@@ -8,7 +8,7 @@ import model.fbdata.Interaction;
 import model.fbdata.Interaction.Type;
 import model.fbdata.User;
 
-public class GrouphNetworkGraphTest {
+public class GrouphNetworkGraphBehaviorTest {
 
 	private GroupNetworkGraph graph = new GroupNetworkGraph();
 
