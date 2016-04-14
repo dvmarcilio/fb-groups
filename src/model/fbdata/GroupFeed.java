@@ -17,7 +17,7 @@ public class GroupFeed {
 	private static final String JSON_EXTENSION = ".json";
 
 	@JsonProperty("data")
-	public List<Post> posts;
+	private List<Post> posts;
 
 	public List<Post> getPosts() {
 		return posts;
