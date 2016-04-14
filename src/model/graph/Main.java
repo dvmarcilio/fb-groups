@@ -18,7 +18,7 @@ public class Main {
 
 	private static ObjectMapper mapper = new ObjectMapper();
 
-	private static GroupNetworkGraph graph = new GroupNetworkGraph();
+	private static GroupNetworkGraph graph;
 
 	public static void main(String[] args) throws Exception {
 		loadTheGraph();
@@ -28,7 +28,6 @@ public class Main {
 	private static void loadTheGraph() throws Exception, JsonParseException,
 			JsonMappingException, IOException {
 		setUpMapper();
-		addUsers();
 		addInteractions();
 	}
 
@@ -37,26 +36,22 @@ public class Main {
 				false);
 	}
 
-	private static void addUsers() throws Exception {
-		final List<User> users = retrieveUsers();
-		System.out.println("Users: " + users.size());
-		users.forEach(u -> graph.addNode(u));
-	}
-
-	private static List<User> retrieveUsers()
-			throws JsonParseException, JsonMappingException, IOException {
-		InputStream is = Main.class
-				.getResourceAsStream("/data/maristao_members.json");
-		return mapper.readValue(is, mapper.getTypeFactory()
-				.constructCollectionLikeType(List.class, User.class));
-	}
-
 	private static void addInteractions()
 			throws JsonParseException, JsonMappingException, IOException {
 		List<Post> posts = GroupFeed.retrieveAllPosts();
+		instantiateTheGraph(posts);
 		System.out.println("Total posts:" + posts.size());
 		posts.forEach(
 				p -> p.getInteractions().forEach(i -> graph.addInteraction(i)));
+	}
+
+	private static void instantiateTheGraph(List<Post> posts) {
+		Long groupID = getGroupId(posts);
+		graph = new GroupNetworkGraph(groupID);
+	}
+
+	private static Long getGroupId(List<Post> posts) {
+		return posts.get(0).getGroupID();
 	}
 
 	private static void showStats()
@@ -74,6 +69,14 @@ public class Main {
 				"Users with Facebook probably deleted or not in the group anymore: "
 						+ usersNotInMembersJson.size());
 		System.out.println(usersNotInMembersJson);
+	}
+
+	private static List<User> retrieveUsers()
+			throws JsonParseException, JsonMappingException, IOException {
+		InputStream is = Main.class
+				.getResourceAsStream("/data/maristao_members.json");
+		return mapper.readValue(is, mapper.getTypeFactory()
+				.constructCollectionLikeType(List.class, User.class));
 	}
 
 }
