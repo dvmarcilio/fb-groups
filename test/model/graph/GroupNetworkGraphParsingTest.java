@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import model.fbdata.GroupFeed;
 import model.fbdata.Post;
-import model.fbdata.User;
 
 public class GroupNetworkGraphParsingTest {
 
@@ -74,9 +74,18 @@ public class GroupNetworkGraphParsingTest {
 
 	@Test
 	public void shouldNotHaveGroupAsANode() {
-		User groupUser = new User(GROUP_ID, GROUP_NAME);
-		Node userNode = new Node(groupUser);
+		Node userNode = new Node(GROUP_USER);
 		assertThat(graph.getNodes(), not(hasItem(userNode)));
+	}
+
+	@Test
+	public void shouldNotHaveGroupAsUser() {
+		assertThat(graph.getUsers(), not(hasItem(GROUP_USER)));
+	}
+
+	@Test
+	public void shouldNotHaveInteractionsEnvolvingTheGroupUser() {
+		fail("Test not yet implemented");
 	}
 
 }

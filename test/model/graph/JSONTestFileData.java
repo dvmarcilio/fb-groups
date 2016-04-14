@@ -6,9 +6,11 @@ public class JSONTestFileData {
 
 	public static final Long GROUP_ID = 777L;
 
-	public static final String POST_ID_1 = GROUP_ID + "_postId";
-	
 	public static final String GROUP_NAME = "GROUP";
+
+	public static final User GROUP_USER = new User(GROUP_ID, GROUP_NAME);
+
+	public static final String POST_ID_1 = GROUP_ID + "_postId";
 
 	public static final int MURILLO_COMMENT_ID = 1111;
 
