@@ -13,6 +13,12 @@ public class GroupNetworkGraph {
 
 	private Integer numEdges = 0;
 
+	private Long groupId;
+
+	public GroupNetworkGraph(Long groupId) {
+		this.groupId = groupId;
+	}
+
 	/**
 	 * @return <tt>true</tt> if the node was added successfully, <tt>false</tt>
 	 *         otherwise
@@ -75,6 +81,10 @@ public class GroupNetworkGraph {
 
 	public Integer getNumNodes() {
 		return nodes.size();
+	}
+
+	public Long getGroupId() {
+		return groupId;
 	}
 
 }

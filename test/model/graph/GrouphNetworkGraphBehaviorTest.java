@@ -1,6 +1,7 @@
 package model.graph;
 
 import static org.junit.Assert.*;
+import static model.graph.JSONTestFileData.GROUP_ID;
 
 import org.junit.Test;
 
@@ -10,7 +11,7 @@ import model.fbdata.User;
 
 public class GrouphNetworkGraphBehaviorTest {
 
-	private GroupNetworkGraph graph = new GroupNetworkGraph();
+	private GroupNetworkGraph graph = new GroupNetworkGraph(GROUP_ID);
 
 	private User u1 = new User(1L, "1");
 	private User u2 = new User(2L, "2");

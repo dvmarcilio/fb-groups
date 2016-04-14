@@ -28,7 +28,7 @@ public class GroupNetworkGraphParsingTest {
 
 	private static ObjectMapper mapper;
 
-	private static GroupNetworkGraph graph = new GroupNetworkGraph();
+	private static GroupNetworkGraph graph = new GroupNetworkGraph(GROUP_ID);
 
 	@BeforeClass
 	public static void setUpOnce() throws Exception {
@@ -75,7 +75,8 @@ public class GroupNetworkGraphParsingTest {
 	@Test
 	public void shouldNotHaveGroupAsANode() {
 		User groupUser = new User(GROUP_ID, GROUP_NAME);
-		assertThat(graph.getNodes(), not(hasItem(new Node(groupUser))));
+		Node userNode = new Node(groupUser);
+		assertThat(graph.getNodes(), not(hasItem(userNode)));
 	}
 
 }
