@@ -9,8 +9,7 @@ import static model.graph.JSONTestFileData.MURILLO;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -93,7 +92,53 @@ public class GroupNetworkGraphParsingTest {
 		Collection<Node> nodes = graph.getNodes();
 		nodes.forEach(
 				n -> assertThat(n.getNeighbors(), not(hasItem(groupNode))));
+	}
 
+	@Test
+	public void shouldHaveCorrectNumberOfEdges() {
+		assertEquals(6, graph.getNumEdges().intValue());
+	}
+
+	@Test
+	public void shouldHaveDiegoTaggingMurilloFourTimes() {
+		Node diegoNode = graph.getUserNode(DIEGO);
+		Interactions i = diegoNode.getInteractionsWith(MURILLO);
+		assertEquals(4, i.getTotalTags().intValue());
+	}
+
+	@Test
+	public void shouldHaveDiegoTaggingGustavoThreeTimes() {
+		Node diegoNode = graph.getUserNode(DIEGO);
+		Interactions i = diegoNode.getInteractionsWith(GUSTAVO);
+		assertEquals(3, i.getTotalTags().intValue());
+	}
+
+	@Test
+	public void shouldHaveCommentFromMurilloToDiego() {
+		Node murilloNode = graph.getUserNode(MURILLO);
+		Interactions i = murilloNode.getInteractionsWith(DIEGO);
+		assertEquals(1, i.getTotalComments().intValue());
+	}
+
+	@Test
+	public void shouldHaveDiegoNodeWithCorrectDegrees() {
+		Node diegoNode = graph.getUserNode(DIEGO);
+		assertEquals(1, diegoNode.getInDegree().intValue());
+		assertEquals(7, diegoNode.getOutDegree().intValue());
+	}
+
+	@Test
+	public void shouldHaveMurilloNodeWithCorrectDegrees() {
+		Node murilloNode = graph.getUserNode(MURILLO);
+		assertEquals(4, murilloNode.getInDegree().intValue());
+		assertEquals(1, murilloNode.getOutDegree().intValue());
+	}
+
+	@Test
+	public void shouldHaveGustavoNodeWithCorrectDegrees() {
+		Node gustavoNode = graph.getUserNode(GUSTAVO);
+		assertEquals(3, gustavoNode.getInDegree().intValue());
+		assertEquals(0, gustavoNode.getOutDegree().intValue());
 	}
 
 }
