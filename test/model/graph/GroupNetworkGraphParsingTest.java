@@ -96,7 +96,7 @@ public class GroupNetworkGraphParsingTest {
 
 	@Test
 	public void shouldHaveCorrectNumberOfEdges() {
-		assertEquals(6, graph.getNumEdges().intValue());
+		assertEquals(8, graph.getNumEdges().intValue());
 	}
 
 	@Test
