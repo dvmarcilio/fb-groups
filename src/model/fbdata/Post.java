@@ -77,18 +77,13 @@ public class Post {
 		return messageTags.getTags();
 	}
 
-	@Override
-	public String toString() {
-		return "Post [author=" + author + ", \nlikes=" + getUsersWhoLiked()
-				+ ", \ncomments=" + getComments() + "]";
-	}
-
 	public Collection<Interaction> getInteractions() {
 		List<Interaction> interactions = new LinkedList<Interaction>();
 		interactions.addAll(getLikesInteractions());
 		interactions.addAll(getCommentsInteractions());
 		interactions.addAll(getStoryTagsInteractions());
 		interactions.addAll(getWithTagsInteractions());
+		interactions.addAll(getMessageTagsInteractions());
 		return interactions;
 	}
 
@@ -133,10 +128,28 @@ public class Post {
 		return withTagsInteractions;
 	}
 
+	private Collection<Interaction> getMessageTagsInteractions() {
+		List<Interaction> messageTagsInteractions = new ArrayList<Interaction>(
+				getMessageTags().size());
+		for (Tag tag : getMessageTags()) {
+			messageTagsInteractions.add(
+					new Interaction(author, tag.getUserTagged(), Type.TAG));
+		}
+		return messageTagsInteractions;
+	}
+
 	public Long getGroupID() {
 		int endOfGroupIDIndex = id.indexOf("_");
 		String groupId = id.substring(0, endOfGroupIDIndex);
 		return Long.parseLong(groupId);
+	}
+
+	@Override
+	public String toString() {
+		return "Post [id=" + id + ", author=" + author + ", \npostComments="
+				+ postComments + ", \npostLikes=" + postLikes + ", \nstoryTags="
+				+ storyTags + ", \nwithTags=" + withTags + ", \nmessageTags="
+				+ messageTags + "]";
 	}
 
 	public static void main(String[] args)

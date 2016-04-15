@@ -1,12 +1,18 @@
 package model.graph;
 
+import static model.graph.JSONTestFileData.DIEGO;
+import static model.graph.JSONTestFileData.DIEGO_COMMENT_ID;
+import static model.graph.JSONTestFileData.GROUP_ID;
+import static model.graph.JSONTestFileData.GUSTAVO;
+import static model.graph.JSONTestFileData.MURILLO;
+import static model.graph.JSONTestFileData.MURILLO_COMMENT_ID;
+import static model.graph.JSONTestFileData.POST_FILE_PATH;
+import static model.graph.JSONTestFileData.POST_ID_1;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-
-import static model.graph.JSONTestFileData.*;
 
 import java.io.InputStream;
 import java.util.List;
@@ -19,8 +25,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import model.fbdata.Comment;
-import model.fbdata.Tag;
+import model.fbdata.Interaction;
+import model.fbdata.Interaction.Type;
 import model.fbdata.Post;
+import model.fbdata.Tag;
 import model.fbdata.User;
 
 public class PostTest {
@@ -52,7 +60,7 @@ public class PostTest {
 	public void shouldReturnTheCorrectGroupID() {
 		assertEquals(GROUP_ID, post.getGroupID());
 	}
-	
+
 	@Test
 	public void shouldHaveAllWithTags() {
 		List<Tag> withTags = post.getWithTags();
@@ -116,6 +124,36 @@ public class PostTest {
 
 	@Test
 	public void shouldHaveAllInteractions() {
-		assertEquals(6, post.getInteractions().size());
+		assertEquals(9, post.getInteractions().size());
 	}
+
+	@Test
+	public void shouldHaveAllCommentsInteractions() {
+		assertThat(post.getInteractions(),
+				hasItem(new Interaction(DIEGO, DIEGO, Type.COMMENT)));
+		assertThat(post.getInteractions(),
+				hasItem(new Interaction(MURILLO, DIEGO, Type.COMMENT)));
+	}
+
+	// Including with_tags, message_tags, and tags on comment
+	// This particular file has:
+	// with_tags: 3
+	// message_tags: 2
+	// comment tag: 1
+	@Test
+	public void shouldHaveAllTagsInteractions() {
+		List<Interaction> tags = post.getInteractions().stream()
+				.filter(i -> i.getType().equals(Type.TAG))
+				.collect(Collectors.toList());
+		assertEquals(6, tags.size());
+	}
+
+	@Test
+	public void shouldHaveAllLikesInteractions() {
+		List<Interaction> likes = post.getInteractions().stream()
+				.filter(i -> i.getType().equals(Type.LIKE))
+				.collect(Collectors.toList());
+		assertEquals(1, likes.size());
+	}
+
 }
