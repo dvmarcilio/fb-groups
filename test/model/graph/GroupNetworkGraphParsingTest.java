@@ -1,12 +1,16 @@
 package model.graph;
 
-import static model.graph.JSONTestFileData.*;
+import static model.graph.JSONTestFileData.DIEGO;
+import static model.graph.JSONTestFileData.FEED_FILE_PATH;
+import static model.graph.JSONTestFileData.GROUP_ID;
+import static model.graph.JSONTestFileData.GROUP_USER;
+import static model.graph.JSONTestFileData.GUSTAVO;
+import static model.graph.JSONTestFileData.MURILLO;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,8 +78,8 @@ public class GroupNetworkGraphParsingTest {
 
 	@Test
 	public void shouldNotHaveGroupAsANode() {
-		Node userNode = new Node(GROUP_USER);
-		assertThat(graph.getNodes(), not(hasItem(userNode)));
+		Node groupNode = new Node(GROUP_USER);
+		assertThat(graph.getNodes(), not(hasItem(groupNode)));
 	}
 
 	@Test
@@ -85,7 +89,11 @@ public class GroupNetworkGraphParsingTest {
 
 	@Test
 	public void shouldNotHaveInteractionsEnvolvingTheGroupUser() {
-		fail("Test not yet implemented");
+		Node groupNode = new Node(GROUP_USER);
+		Collection<Node> nodes = graph.getNodes();
+		nodes.forEach(
+				n -> assertThat(n.getNeighbors(), not(hasItem(groupNode))));
+
 	}
 
 }
