@@ -9,7 +9,7 @@ public class Interactions {
 	private Integer totalTags = 0;
 	private Integer totalLikes = 0;
 
-	public void add(Interaction.Type interactionType) {
+	protected void add(Interaction.Type interactionType) {
 		addToSpecificTypeCount(interactionType);
 		total += 1;
 	}
