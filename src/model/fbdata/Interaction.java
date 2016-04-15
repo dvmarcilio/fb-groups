@@ -44,4 +44,8 @@ public class Interaction {
 		return to.equals(from);
 	}
 
+	public boolean envolvesUser(User groupUser) {
+		return from.equals(groupUser) || to.equals(groupUser);
+	}
+
 }
