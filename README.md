@@ -26,7 +26,13 @@ Each post has the following fields:
 **Right now the text content of both Posts and Comments are not being stored or analyzed.**
 
 ### Known limitations
+#### Data
 The following interactions are not being imported right now:
-* Comment's replies (nested comments)
-* Likes on a post.
+* Comment's replies (nested comments) and its likes
+* Likes on a comment.
 To retrieve a Comment's replies one have to perform an API request for each comment. The same goes for retrieving the users who liked a Comment.
+
+#### Model
+What is being modeled as a graph are interactions between users. Interactions from an User to the Group is not being considered.
+
+Example: When an User posts something to the group, and this post does not tag anyone, does not have comments and likes, this post will not yield any interaction, therefore no changes will be made to the graph. 

@@ -1,6 +1,6 @@
 
     {
-      "id": "groupId_postId",
+      "id": "777_postId",
       "from": {
         "name": "diego",
         "id": "666"
@@ -10,7 +10,7 @@
           {
             "name": "GROUP",
             "privacy": "SECRET",
-            "id": "groupId"
+            "id": "777"
           },
           {
             "name": "murillo",
@@ -67,15 +67,15 @@
       "actions": [
         {
           "name": "Comment",
-          "link": "https://www.facebook.com/groupId/posts/postId"
+          "link": "https://www.facebook.com/777/posts/postId"
         },
         {
           "name": "Like",
-          "link": "https://www.facebook.com/groupId/posts/postId"
+          "link": "https://www.facebook.com/777/posts/postId"
         },
         {
           "name": "Create Group Chat",
-          "link": "https://www.facebook.com/groups/groupId/"
+          "link": "https://www.facebook.com/groups/777/"
         }
       ],
       "privacy": {

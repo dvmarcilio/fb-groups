@@ -1,5 +1,13 @@
 package model.graph;
 
+import static model.graph.JSONTestFileData.DIEGO;
+import static model.graph.JSONTestFileData.DIEGO_COMMENT_ID;
+import static model.graph.JSONTestFileData.GROUP_ID;
+import static model.graph.JSONTestFileData.GUSTAVO;
+import static model.graph.JSONTestFileData.MURILLO;
+import static model.graph.JSONTestFileData.MURILLO_COMMENT_ID;
+import static model.graph.JSONTestFileData.POST_FILE_PATH;
+import static model.graph.JSONTestFileData.POST_ID_1;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.assertEquals;
@@ -17,25 +25,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import model.fbdata.Comment;
-import model.fbdata.Tag;
+import model.fbdata.Interaction;
+import model.fbdata.Interaction.Type;
 import model.fbdata.Post;
+import model.fbdata.Tag;
 import model.fbdata.User;
 
 public class PostTest {
-
-	private static final String POST_ID = "groupId_postId";
-
-	private static final int MURILLO_COMMENT_ID = 1111;
-
-	private static final long DIEGO_COMMENT_ID = 1000L;
-
-	private static final User GUSTAVO = new User(987L, "gustavo");
-
-	private static final User MURILLO = new User(123L, "murillo");
-
-	private static final User DIEGO = new User(666L, "diego");
-
-	private static final String JSON_FILE_PATH = "/data/post.json";
 
 	private static Post post;
 
@@ -46,18 +42,23 @@ public class PostTest {
 		mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
 				false);
-		InputStream is = PostTest.class.getResourceAsStream(JSON_FILE_PATH);
+		InputStream is = PostTest.class.getResourceAsStream(POST_FILE_PATH);
 		post = mapper.readValue(is, Post.class);
 	}
 
 	@Test
 	public void shouldParsePostIdCorrectly() {
-		assertEquals(POST_ID, post.getId());
+		assertEquals(POST_ID_1, post.getId());
 	}
 
 	@Test
 	public void shouldParsePostAuthorCorrectly() {
 		assertEquals(DIEGO, post.getAuthor());
+	}
+
+	@Test
+	public void shouldReturnTheCorrectGroupID() {
+		assertEquals(GROUP_ID, post.getGroupID());
 	}
 
 	@Test
@@ -123,6 +124,36 @@ public class PostTest {
 
 	@Test
 	public void shouldHaveAllInteractions() {
-		assertEquals(6, post.getInteractions().size());
+		assertEquals(9, post.getInteractions().size());
 	}
+
+	@Test
+	public void shouldHaveAllCommentsInteractions() {
+		assertThat(post.getInteractions(),
+				hasItem(new Interaction(DIEGO, DIEGO, Type.COMMENT)));
+		assertThat(post.getInteractions(),
+				hasItem(new Interaction(MURILLO, DIEGO, Type.COMMENT)));
+	}
+
+	// Including with_tags, message_tags, and tags on comment
+	// This particular file has:
+	// with_tags: 3
+	// message_tags: 2
+	// comment tag: 1
+	@Test
+	public void shouldHaveAllTagsInteractions() {
+		List<Interaction> tags = post.getInteractions().stream()
+				.filter(i -> i.getType().equals(Type.TAG))
+				.collect(Collectors.toList());
+		assertEquals(6, tags.size());
+	}
+
+	@Test
+	public void shouldHaveAllLikesInteractions() {
+		List<Interaction> likes = post.getInteractions().stream()
+				.filter(i -> i.getType().equals(Type.LIKE))
+				.collect(Collectors.toList());
+		assertEquals(1, likes.size());
+	}
+
 }

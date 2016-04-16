@@ -48,6 +48,14 @@ public class Node {
 		interactions.add(interactionType);
 	}
 
+	public Interactions getInteractionsWith(User user) {
+		Node userNode = new Node(user);
+		if (neighborsInteractedWith.containsKey(userNode))
+			return neighborsInteractedWith.get(userNode);
+		else
+			return new Interactions();
+	}
+
 	public Set<Node> getNeighbors() {
 		return neighborsInteractedWith.keySet();
 	}
