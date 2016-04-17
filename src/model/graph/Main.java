@@ -2,7 +2,10 @@ package model.graph;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -23,6 +26,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		loadTheGraph();
 		showStats();
+		showPageRank();
 	}
 
 	private static void loadTheGraph() throws Exception, JsonParseException,
@@ -63,7 +67,7 @@ public class Main {
 
 	private static void printUsersNotInTheGroupAnymore()
 			throws JsonParseException, JsonMappingException, IOException {
-		Set<User> usersNotInMembersJson = graph.getUsers();
+		Set<User> usersNotInMembersJson = new HashSet<>(graph.getUsers());
 		usersNotInMembersJson.removeAll(retrieveUsers());
 		System.out.println(
 				"Users with Facebook probably deleted or not in the group anymore: "
@@ -77,6 +81,16 @@ public class Main {
 				.getResourceAsStream("/data/maristao_members.json");
 		return mapper.readValue(is, mapper.getTypeFactory()
 				.constructCollectionLikeType(List.class, User.class));
+	}
+
+	private static void showPageRank() {
+		System.out.println("\n\n\n\n");
+		PageRank pr = new PageRank(graph);
+		HashMap<Node, Double> nodesToPageRank = pr.compute();
+		for (Map.Entry<Node, Double> entry : nodesToPageRank.entrySet()) {
+			System.out.println(entry.getKey().getUser() + "\nPageRank:"
+					+ entry.getValue() + "\n");
+		}
 	}
 
 }
