@@ -1,18 +1,21 @@
 package model.graph;
 
-import static model.graph.JSONTestFileData.*;
-import static org.junit.Assert.*;
+import static model.graph.JSONTestFileData.DIEGO;
+import static model.graph.JSONTestFileData.GROUP_ID;
+import static model.graph.JSONTestFileData.GUSTAVO;
+import static model.graph.JSONTestFileData.MURILLO;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
-import java.util.Map;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import model.fbdata.Interaction;
 import model.fbdata.Interaction.Type;
 
-public class PageRankTest {
+public class PageSimpleRankTest {
 
 	private GroupNetworkGraph graph = new GroupNetworkGraph(GROUP_ID);
 
@@ -21,6 +24,8 @@ public class PageRankTest {
 	private Node gustavoNode = new Node(GUSTAVO);
 
 	private PageRank pageRank;
+
+	private HashMap<Node, Double> nodesToPageRank;
 
 	@Before
 	public void setUp() {
@@ -39,25 +44,30 @@ public class PageRankTest {
 		graph.addInteraction(new Interaction(MURILLO, DIEGO, Type.COMMENT));
 	}
 
+	@After
+	public void assertValuesSumToOne() {
+		PageRankArticleTest.assertValuesSumToOne(nodesToPageRank.values());
+	}
+
 	@Test
-	public void pageRank1() {
-		HashMap<Node, Double> nodesToPageRank = pageRank.compute(1);
+	public void oneStep() {
+		nodesToPageRank = pageRank.compute(1);
 		assertEquals(new Double(1 / 3.0), nodesToPageRank.get(diegoNode));
 		assertEquals(new Double(3 / 15.0), nodesToPageRank.get(murilloNode));
 		assertEquals(new Double(7 / 15.0), nodesToPageRank.get(gustavoNode));
 	}
 
 	@Test
-	public void pageRank2() {
-		HashMap<Node, Double> nodesToPageRank = pageRank.compute(2);
+	public void twoSteps() {
+		nodesToPageRank = pageRank.compute(2);
 		assertEquals(new Double(3 / 15.0), nodesToPageRank.get(diegoNode));
 		assertEquals(new Double(3 / 15.0), nodesToPageRank.get(murilloNode));
 		assertEquals(new Double(9 / 15.0), nodesToPageRank.get(gustavoNode));
 	}
 
 	@Test
-	public void pageRank3() {
-		HashMap<Node, Double> nodesToPageRank = pageRank.compute(3);
+	public void threeSteps() {
+		nodesToPageRank = pageRank.compute(3);
 		assertEquals(new Double(3 / 15.0), nodesToPageRank.get(diegoNode));
 		assertEquals(new Double(3 / 25.0), nodesToPageRank.get(murilloNode));
 		assertEquals(new Double(17 / 25.0), nodesToPageRank.get(gustavoNode),
@@ -65,8 +75,8 @@ public class PageRankTest {
 	}
 
 	@Test
-	public void pageRank4() {
-		HashMap<Node, Double> nodesToPageRank = pageRank.compute(4);
+	public void fourSteps() {
+		nodesToPageRank = pageRank.compute(4);
 		assertEquals(new Double(3 / 25.0), nodesToPageRank.get(diegoNode));
 		assertEquals(new Double(3 / 25.0), nodesToPageRank.get(murilloNode));
 		assertEquals(new Double(19 / 25.0), nodesToPageRank.get(gustavoNode),
@@ -74,8 +84,8 @@ public class PageRankTest {
 	}
 
 	@Test
-	public void pageRank5() {
-		HashMap<Node, Double> nodesToPageRank = pageRank.compute(5);
+	public void fiveSteps() {
+		nodesToPageRank = pageRank.compute(5);
 		assertEquals(new Double(3 / 25.0), nodesToPageRank.get(diegoNode));
 		assertEquals(new Double(9 / 125.0), nodesToPageRank.get(murilloNode),
 				0.001);
@@ -84,23 +94,14 @@ public class PageRankTest {
 	}
 
 	@Test
-	public void pageRank6() {
-		HashMap<Node, Double> nodesToPageRank = pageRank.compute(6);
+	public void sixSteps() {
+		nodesToPageRank = pageRank.compute(6);
 		assertEquals(new Double(9 / 125.0), nodesToPageRank.get(diegoNode),
 				0.001);
 		assertEquals(new Double(9 / 125.0), nodesToPageRank.get(murilloNode),
 				0.001);
 		assertEquals(new Double(107 / 125.0), nodesToPageRank.get(gustavoNode),
 				0.001);
-	}
-	
-	@Test
-	public void pageRank100() {
-		HashMap<Node, Double> nodesToPageRank = pageRank.compute();
-		for (Map.Entry<Node, Double> entry : nodesToPageRank.entrySet()) {
-			System.out.println(entry.getKey().getUser() + "\nPageRank:"
-					+ entry.getValue() + "\n");
-		}
 	}
 
 }
