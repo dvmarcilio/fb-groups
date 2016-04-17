@@ -89,10 +89,22 @@ public class Main {
 		System.out.println("\n\n\n\n");
 		PageRank pr = new PageRank(graph);
 		Map<Node, Double> nodesToPageRank = pr.compute();
+		assertThatValuesSumUpToOne(nodesToPageRank);
 		nodesToPageRank = sortByValue(nodesToPageRank);
+
 		for (Map.Entry<Node, Double> entry : nodesToPageRank.entrySet()) {
 			System.out.println(entry.getKey().getUser() + "\nPageRank:"
 					+ entry.getValue() + "\n");
+		}
+	}
+
+	private static void assertThatValuesSumUpToOne(
+			Map<Node, Double> nodesToPageRank) {
+		double valuesSum = nodesToPageRank.values().stream()
+				.mapToDouble(v -> v.doubleValue()).sum();
+		if (Math.abs(valuesSum - PageRank.TOTAL_PAGE_RANK) >= 0.001) {
+			System.out.println("PAGERANK IS WRONG. Aborting...");
+			System.exit(0);
 		}
 	}
 

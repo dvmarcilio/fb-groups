@@ -95,7 +95,7 @@ public class PageRankArticleTest {
 	public static void assertValuesSumToOne(Collection<Double> values) {
 		Double valuesSum = values.stream().mapToDouble(v -> v.doubleValue())
 				.sum();
-		assertEquals(new Double(1.0), valuesSum, 0.001);
+		assertEquals(new Double(PageRank.TOTAL_PAGE_RANK), valuesSum, 0.001);
 	}
 
 }

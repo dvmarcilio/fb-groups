@@ -7,6 +7,8 @@ public class PageRank {
 
 	private static final int STEPS = 5;
 
+	public static final Double TOTAL_PAGE_RANK = 1.0;
+
 	private GroupNetworkGraph graph;
 
 	private HashMap<Node, Double> nodeToPageRank = new HashMap<>();
@@ -21,7 +23,7 @@ public class PageRank {
 
 	private void initPageRankNodes() {
 		Collection<Node> nodes = graph.getNodes();
-		Double initialPageRankValue = 1.0 / nodes.size();
+		Double initialPageRankValue = TOTAL_PAGE_RANK / nodes.size();
 		for (Node node : nodes) {
 			nodeToPageRank.put(node, initialPageRankValue);
 			nodeToPageRankPreIteration.put(node, 0.0);
@@ -54,20 +56,21 @@ public class PageRank {
 				Interactions neighborInteractions = node
 						.getInteractionsWith(neighbor.getUser());
 				int totalEdgesToNeighbor = neighborInteractions.getTotal();
-				
-				Double neighborPageRank = iterationNodeToPageRank
-						.get(neighbor);
+
+				Double neighborPageRank = iterationNodeToPageRank.get(neighbor);
 				Double neighborPageRankShare = currNodePageRankShare
 						* totalEdgesToNeighbor;
 				Double neighborNewPageRank = neighborPageRank
 						+ neighborPageRankShare;
-				
+
 				iterationNodeToPageRank.put(neighbor, neighborNewPageRank);
 			}
-			
+
 			if (node.getNeighbors().isEmpty()) {
-				Double nodeIterationPageRank = iterationNodeToPageRank.get(node);
-				Double nodeNewPageRank = nodeIterationPageRank + currentNodePageRank;
+				Double nodeIterationPageRank = iterationNodeToPageRank
+						.get(node);
+				Double nodeNewPageRank = nodeIterationPageRank
+						+ currentNodePageRank;
 				iterationNodeToPageRank.put(node, nodeNewPageRank);
 			}
 
