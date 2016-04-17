@@ -9,14 +9,14 @@ import static model.graph.JSONTestFileData.MURILLO;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -143,14 +143,4 @@ public class GroupNetworkGraphParsingTest {
 		assertEquals(0, gustavoNode.getOutDegree().intValue());
 	}
 
-	@Test
-	public void pageRank() throws Exception {
-		System.out.println("\n\n\n\n");
-		PageRank pr = new PageRank(graph);
-		HashMap<Node, Double> nodesToPageRank = pr.compute();
-		for (Map.Entry<Node, Double> entry : nodesToPageRank.entrySet()) {
-			System.out.println(entry.getKey().getUser() + "\nPageRank:"
-					+ entry.getValue() + "\n");
-		}
-	}
 }

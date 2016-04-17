@@ -29,14 +29,19 @@ public class PageRank {
 	}
 
 	public HashMap<Node, Double> compute() {
-		for (int i = 0; i < STEPS; i++) {
+		return compute(STEPS);
+	}
+
+	public HashMap<Node, Double> compute(int steps) {
+		for (int i = 0; i < steps; i++) {
 			basicPageRankUpdate();
 		}
 		return nodeToPageRank;
 	}
 
 	private void basicPageRankUpdate() {
-		HashMap<Node, Double> preIterationNodeToPageRank = new HashMap<>(nodeToPageRank);
+		HashMap<Node, Double> preIterationNodeToPageRank = new HashMap<>(
+				nodeToPageRank);
 		HashMap<Node, Double> iterationNodeToPageRank = new HashMap<>(
 				nodeToPageRankPreIteration);
 
@@ -44,21 +49,28 @@ public class PageRank {
 			Double currentNodePageRank = preIterationNodeToPageRank.get(node);
 			Double currNodePageRankShare = currentNodePageRank
 					/ node.getOutDegree();
-			
+
 			for (Node neighbor : node.getNeighbors()) {
-				int totalEdgesToNeighbor = node
-						.getInteractionsWith(node.getUser()).getTotal();
-				Double neighborPageRank = preIterationNodeToPageRank.get(neighbor);
+				Interactions neighborInteractions = node
+						.getInteractionsWith(neighbor.getUser());
+				int totalEdgesToNeighbor = neighborInteractions.getTotal();
+				
+				Double neighborPageRank = iterationNodeToPageRank
+						.get(neighbor);
 				Double neighborPageRankShare = currNodePageRankShare
 						* totalEdgesToNeighbor;
 				Double neighborNewPageRank = neighborPageRank
 						+ neighborPageRankShare;
+				
 				iterationNodeToPageRank.put(neighbor, neighborNewPageRank);
 			}
 			
-			if (!node.getNeighbors().isEmpty()) {
-				preIterationNodeToPageRank.put(node, 0D);
+			if (node.getNeighbors().isEmpty()) {
+				Double nodeIterationPageRank = iterationNodeToPageRank.get(node);
+				Double nodeNewPageRank = nodeIterationPageRank + currentNodePageRank;
+				iterationNodeToPageRank.put(node, nodeNewPageRank);
 			}
+
 		}
 
 		nodeToPageRank = iterationNodeToPageRank;
