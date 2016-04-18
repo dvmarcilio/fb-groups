@@ -1,9 +1,11 @@
 package model.graph;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import model.fbdata.Interaction;
+import model.fbdata.Interaction.Type;
 import model.fbdata.User;
 
 public class Node {
@@ -16,15 +18,17 @@ public class Node {
 
 	private HashMap<Node, Interactions> neighborsInteractedWith = new HashMap<>();
 
+	private HashSet<Node> inNeighbors = new HashSet<>();
+
 	protected Node(User user) {
 		this.user = user;
 	}
 
 	protected void addInteractionWith(Node interactedNode,
-			Interaction.Type interactionType) {
+			Type interactionType) {
 		addInteraction(interactedNode, interactionType);
 		outDegree += 1;
-		interactedNode.inDegree += 1;
+		interactedNode.interactedWith(this);
 	}
 
 	private void addInteraction(Node interactedNode,
@@ -48,6 +52,15 @@ public class Node {
 		interactions.add(interactionType);
 	}
 
+	private void interactedWith(Node interactingNode) {
+		inDegree += 1;
+		addInNeighbor(interactingNode);
+	}
+
+	private void addInNeighbor(Node inNeighbor) {
+		inNeighbors.add(inNeighbor);
+	}
+
 	public Interactions getInteractionsWith(User user) {
 		Node userNode = new Node(user);
 		if (neighborsInteractedWith.containsKey(userNode))
@@ -63,6 +76,15 @@ public class Node {
 	 */
 	public Set<Node> getOutNeighbors() {
 		return neighborsInteractedWith.keySet();
+	}
+
+	/**
+	 * 
+	 * @return Nodes that this instance has in edges from. Or in other words,
+	 *         nodes that have out edges coming to this instance.
+	 */
+	public Set<Node> getInNeighbors() {
+		return inNeighbors;
 	}
 
 	public Integer getInDegree() {
