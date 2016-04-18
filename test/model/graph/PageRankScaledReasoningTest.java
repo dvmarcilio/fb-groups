@@ -14,6 +14,8 @@ import model.fbdata.Interaction.Type;
 
 public class PageRankScaledReasoningTest {
 
+	private static final int STEPS = 10000;
+
 	private GroupNetworkGraph graph = new GroupNetworkGraph(123123L);
 
 	private Node nodeA = new Node(new User(1L, "A"));
@@ -65,9 +67,8 @@ public class PageRankScaledReasoningTest {
 	}
 
 	@Test
-	public void shouldConvergeAllPageRankToNodeFAndNodeGWhenRepeatedlyRunning()
-			throws Exception {
-		nodeToPageRank = pageRank.compute(10000);
+	public void shouldConvergeAllPageRankToNodeFAndNodeGWhenRepeatedlyRunning() {
+		nodeToPageRank = pageRank.compute(STEPS);
 		assertEquals(new Double(0), nodeToPageRank.get(nodeA));
 		assertEquals(new Double(0), nodeToPageRank.get(nodeB));
 		assertEquals(new Double(0), nodeToPageRank.get(nodeC));
@@ -76,6 +77,18 @@ public class PageRankScaledReasoningTest {
 		assertEquals(new Double(1 / 2.0), nodeToPageRank.get(nodeF), 0.01);
 		assertEquals(new Double(1 / 2.0), nodeToPageRank.get(nodeG), 0.01);
 		assertEquals(new Double(0), nodeToPageRank.get(nodeH));
+	}
+
+	@Test
+	public void shouldNotConvergeAllPageRankToNodeFAndNodeGWithScaledPageRank() {
+		nodeToPageRank = pageRank.computeScaled(STEPS);
+		assertNotEquals(new Double(0), nodeToPageRank.get(nodeA));
+		assertNotEquals(new Double(0), nodeToPageRank.get(nodeB));
+		assertNotEquals(new Double(0), nodeToPageRank.get(nodeC));
+		assertNotEquals(new Double(0), nodeToPageRank.get(nodeD));
+		assertNotEquals(new Double(0), nodeToPageRank.get(nodeE));
+		assertNotEquals(new Double(1 / 2.0), nodeToPageRank.get(nodeF), 0.01);
+		assertNotEquals(new Double(0), nodeToPageRank.get(nodeH));
 	}
 
 }
