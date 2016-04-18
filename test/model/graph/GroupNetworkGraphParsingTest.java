@@ -1,11 +1,11 @@
 package model.graph;
 
-import static model.graph.JSONTestFileData.DIEGO;
-import static model.graph.JSONTestFileData.FEED_FILE_PATH;
-import static model.graph.JSONTestFileData.GROUP_ID;
-import static model.graph.JSONTestFileData.GROUP_USER;
-import static model.graph.JSONTestFileData.GUSTAVO;
-import static model.graph.JSONTestFileData.MURILLO;
+import static data.JSONTestFileData.DIEGO;
+import static data.JSONTestFileData.FEED_FILE_PATH;
+import static data.JSONTestFileData.GROUP_ID;
+import static data.JSONTestFileData.GROUP_USER;
+import static data.JSONTestFileData.GUSTAVO;
+import static data.JSONTestFileData.MURILLO;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;

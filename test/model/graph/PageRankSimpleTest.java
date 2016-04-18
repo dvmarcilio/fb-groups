@@ -1,9 +1,9 @@
 package model.graph;
 
-import static model.graph.JSONTestFileData.DIEGO;
-import static model.graph.JSONTestFileData.GROUP_ID;
-import static model.graph.JSONTestFileData.GUSTAVO;
-import static model.graph.JSONTestFileData.MURILLO;
+import static data.JSONTestFileData.DIEGO;
+import static data.JSONTestFileData.GROUP_ID;
+import static data.JSONTestFileData.GUSTAVO;
+import static data.JSONTestFileData.MURILLO;
 import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;

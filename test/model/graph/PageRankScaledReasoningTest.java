@@ -1,65 +1,32 @@
 package model.graph;
 
-import static org.junit.Assert.*;
+import static model.graph.GraphTestHelper.NODE_A;
+import static model.graph.GraphTestHelper.NODE_B;
+import static model.graph.GraphTestHelper.NODE_C;
+import static model.graph.GraphTestHelper.NODE_D;
+import static model.graph.GraphTestHelper.NODE_E;
+import static model.graph.GraphTestHelper.NODE_F;
+import static model.graph.GraphTestHelper.NODE_G;
+import static model.graph.GraphTestHelper.NODE_H;
+import static model.graph.GraphTestHelper.NON_SCALED_EXAMPLE_GRAPH;
+import static model.graph.GraphTestHelper.SCALED_EXAMPLE_GRAPH;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.Map;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-
-import model.fbdata.Interaction;
-import model.fbdata.User;
-import model.fbdata.Interaction.Type;
 
 public class PageRankScaledReasoningTest {
 
 	private static final int STEPS = 10000;
 
-	private GroupNetworkGraph graph = new GroupNetworkGraph(123123L);
+	private GroupNetworkGraph graph = SCALED_EXAMPLE_GRAPH;
 
-	private Node nodeA = new Node(new User(1L, "A"));
-	private Node nodeB = new Node(new User(2L, "B"));
-	private Node nodeC = new Node(new User(3L, "C"));
-	private Node nodeD = new Node(new User(4L, "D"));
-	private Node nodeE = new Node(new User(5L, "E"));
-	private Node nodeF = new Node(new User(6L, "F"));
-	private Node nodeG = new Node(new User(7L, "G"));
-	private Node nodeH = new Node(new User(8L, "H"));
-
-	private PageRank pageRank;
+	private PageRank pageRank = new PageRank(graph);
 
 	private Map<Node, Double> nodeToPageRank;
-
-	@Before
-	public void setUp() {
-		graph.addInteraction(interaction(nodeA, nodeB));
-		graph.addInteraction(interaction(nodeA, nodeC));
-
-		graph.addInteraction(interaction(nodeB, nodeD));
-		graph.addInteraction(interaction(nodeB, nodeE));
-
-		graph.addInteraction(interaction(nodeC, nodeF));
-		graph.addInteraction(interaction(nodeC, nodeG));
-
-		graph.addInteraction(interaction(nodeD, nodeA));
-		graph.addInteraction(interaction(nodeD, nodeH));
-
-		graph.addInteraction(interaction(nodeE, nodeA));
-		graph.addInteraction(interaction(nodeE, nodeH));
-
-		graph.addInteraction(interaction(nodeF, nodeG));
-
-		graph.addInteraction(interaction(nodeG, nodeF));
-
-		graph.addInteraction(interaction(nodeH, nodeA));
-
-		pageRank = new PageRank(graph);
-	}
-
-	private Interaction interaction(Node from, Node to) {
-		return new Interaction(from.getUser(), to.getUser(), Type.TAG);
-	}
 
 	@After
 	public void assertValuesSumToOne() {
@@ -69,26 +36,39 @@ public class PageRankScaledReasoningTest {
 	@Test
 	public void shouldConvergeAllPageRankToNodeFAndNodeGWhenRepeatedlyRunning() {
 		nodeToPageRank = pageRank.compute(STEPS);
-		assertEquals(new Double(0), nodeToPageRank.get(nodeA));
-		assertEquals(new Double(0), nodeToPageRank.get(nodeB));
-		assertEquals(new Double(0), nodeToPageRank.get(nodeC));
-		assertEquals(new Double(0), nodeToPageRank.get(nodeD));
-		assertEquals(new Double(0), nodeToPageRank.get(nodeE));
-		assertEquals(new Double(1 / 2.0), nodeToPageRank.get(nodeF), 0.01);
-		assertEquals(new Double(1 / 2.0), nodeToPageRank.get(nodeG), 0.01);
-		assertEquals(new Double(0), nodeToPageRank.get(nodeH));
+		assertEquals(new Double(0), nodeToPageRank.get(NODE_A));
+		assertEquals(new Double(0), nodeToPageRank.get(NODE_B));
+		assertEquals(new Double(0), nodeToPageRank.get(NODE_C));
+		assertEquals(new Double(0), nodeToPageRank.get(NODE_D));
+		assertEquals(new Double(0), nodeToPageRank.get(NODE_E));
+		assertEquals(new Double(1 / 2.0), nodeToPageRank.get(NODE_F), 0.01);
+		assertEquals(new Double(1 / 2.0), nodeToPageRank.get(NODE_G), 0.01);
+		assertEquals(new Double(0), nodeToPageRank.get(NODE_H));
 	}
 
 	@Test
 	public void shouldNotConvergeAllPageRankToNodeFAndNodeGWithScaledPageRank() {
 		nodeToPageRank = pageRank.computeScaled(STEPS);
-		assertNotEquals(new Double(0), nodeToPageRank.get(nodeA));
-		assertNotEquals(new Double(0), nodeToPageRank.get(nodeB));
-		assertNotEquals(new Double(0), nodeToPageRank.get(nodeC));
-		assertNotEquals(new Double(0), nodeToPageRank.get(nodeD));
-		assertNotEquals(new Double(0), nodeToPageRank.get(nodeE));
-		assertNotEquals(new Double(1 / 2.0), nodeToPageRank.get(nodeF), 0.01);
-		assertNotEquals(new Double(0), nodeToPageRank.get(nodeH));
+		assertNotEquals(new Double(0), nodeToPageRank.get(NODE_A));
+		assertNotEquals(new Double(0), nodeToPageRank.get(NODE_B));
+		assertNotEquals(new Double(0), nodeToPageRank.get(NODE_C));
+		assertNotEquals(new Double(0), nodeToPageRank.get(NODE_D));
+		assertNotEquals(new Double(0), nodeToPageRank.get(NODE_E));
+		assertNotEquals(new Double(0), nodeToPageRank.get(NODE_H));
+	}
+
+	@Test
+	public void oneStepScaledOnNonScaledExampleGraph() {
+		nodeToPageRank = new PageRank(NON_SCALED_EXAMPLE_GRAPH)
+				.computeScaled(1);
+		assertEquals(new Double(0.44375), nodeToPageRank.get(NODE_A), 0.01);
+		assertEquals(new Double(0.071875), nodeToPageRank.get(NODE_B), 0.01);
+		assertEquals(new Double(0.071875), nodeToPageRank.get(NODE_C), 0.01);
+		assertEquals(new Double(0.071875), nodeToPageRank.get(NODE_D), 0.01);
+		assertEquals(new Double(0.071875), nodeToPageRank.get(NODE_E), 0.01);
+		assertEquals(new Double(0.071875), nodeToPageRank.get(NODE_F), 0.01);
+		assertEquals(new Double(0.071875), nodeToPageRank.get(NODE_G), 0.01);
+		assertEquals(new Double(0.125), nodeToPageRank.get(NODE_H), 0.01);
 	}
 
 }
