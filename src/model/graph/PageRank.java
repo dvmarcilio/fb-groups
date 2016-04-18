@@ -96,7 +96,7 @@ public class PageRank {
 		private void passPageRankSharesToNeighbors() {
 			double nodePageRankSingleShare = getNodePageRank(node)
 					/ node.getOutDegree();
-			for (Node neighbor : node.getNeighbors()) {
+			for (Node neighbor : node.getOutNeighbors()) {
 				passPageRankShareToNeighbor(nodePageRankSingleShare, neighbor);
 			}
 		}

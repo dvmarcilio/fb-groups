@@ -17,6 +17,7 @@ public class NodeTest {
 	@Test
 	public void shouldOnlyIncreaseInteractingNodeOutDegree() {
 		n1.addInteractionWith(n2, Type.TAG);
+		
 		assertEquals(0, n1.getInDegree().intValue());
 		assertEquals(1, n1.getOutDegree().intValue());
 	}
@@ -24,6 +25,7 @@ public class NodeTest {
 	@Test
 	public void shouldOnlyIncreaseInteractedNodeInDegree() {
 		n1.addInteractionWith(n2, Type.TAG);
+		
 		assertEquals(1, n2.getInDegree().intValue());
 		assertEquals(0, n2.getOutDegree().intValue());
 	}
@@ -44,7 +46,7 @@ public class NodeTest {
 	}
 
 	@Test
-	public void shouldReturnEmptyInteractionsWhenUserIsNotANeighbor() {
+	public void shouldReturnEmptyInteractionsWithWhenUserIsNotANeighbor() {
 		Interactions interactions = n1
 				.getInteractionsWith(new User(33L, "not a neighbor"));
 

@@ -88,8 +88,8 @@ public class GrouphNetworkGraphBehaviorTest {
 		assertEquals(originalNode.getInDegree(), nodeAddedAgain.getInDegree());
 		assertEquals(originalNode.getOutDegree(),
 				nodeAddedAgain.getOutDegree());
-		assertEquals(originalNode.getNeighbors(),
-				nodeAddedAgain.getNeighbors());
+		assertEquals(originalNode.getOutNeighbors(),
+				nodeAddedAgain.getOutNeighbors());
 	}
 
 	@Test
@@ -143,7 +143,7 @@ public class GrouphNetworkGraphBehaviorTest {
 		Node groupNode = new Node(GROUP_USER);
 		Collection<Node> nodes = graph.getNodes();
 		nodes.forEach(
-				n -> assertThat(n.getNeighbors(), not(hasItem(groupNode))));
+				n -> assertThat(n.getOutNeighbors(), not(hasItem(groupNode))));
 	}
 
 }

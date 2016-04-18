@@ -56,7 +56,12 @@ public class Node {
 			return new Interactions();
 	}
 
-	public Set<Node> getNeighbors() {
+	/**
+	 * 
+	 * @return Nodes that this instance has out edges to. Or in other words,
+	 *         nodes that have in edges coming from this instance.
+	 */
+	public Set<Node> getOutNeighbors() {
 		return neighborsInteractedWith.keySet();
 	}
 
