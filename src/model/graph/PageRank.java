@@ -71,19 +71,11 @@ public class PageRank {
 	}
 
 	public Map<Node, Double> computeScaled(int steps) {
-		compute(steps);
-		scaleNodesPageRank();
+		for (int i = 0; i < steps; i++) {
+			ScaledPageRankUpdate scaledPageRankUpdate = new ScaledPageRankUpdate();
+			nodeToPageRank = scaledPageRankUpdate.execute();
+		}
 		return nodeToPageRank;
-	}
-
-	private void scaleNodesPageRank() {
-		nodeToPageRank.keySet().forEach(n -> scaleNode(n));
-	}
-
-	private void scaleNode(Node node) {
-		double nodePageRankScaledDown = getNodePageRank(node) * SCALING_FACTOR;
-		double finalNodePageRank = nodePageRankScaledDown + scaledShare;
-		nodeToPageRank.put(node, finalNodePageRank);
 	}
 
 	private class BasicPageRankUpdate {
@@ -147,6 +139,37 @@ public class PageRank {
 						+ getNodePageRank(node);
 				iterationNodeToPageRank.put(node, nodeNewPageRank);
 			}
+		}
+
+	}
+
+	private class ScaledPageRankUpdate {
+
+		private BasicPageRankUpdate basicPageRankUpdate = new BasicPageRankUpdate();
+
+		private HashMap<Node, Double> scaledNodeToPageRank;
+
+		private HashMap<Node, Double> execute() {
+			executeBasicUpdateOnAllNodes();
+			scaleNodesPageRank();
+			return scaledNodeToPageRank;
+		}
+
+		private void executeBasicUpdateOnAllNodes() {
+			graph.getNodes().forEach(n -> basicPageRankUpdate.execute(n));
+			scaledNodeToPageRank = basicPageRankUpdate
+					.getIterationNodeToPageRank();
+		}
+
+		private void scaleNodesPageRank() {
+			scaledNodeToPageRank.keySet().forEach(n -> scaleNode(n));
+		}
+
+		private void scaleNode(Node node) {
+			double nodePageRankScaledDown = getNodePageRank(node)
+					* SCALING_FACTOR;
+			double finalNodePageRank = nodePageRankScaledDown + scaledShare;
+			scaledNodeToPageRank.put(node, finalNodePageRank);
 		}
 
 	}
