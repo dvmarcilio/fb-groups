@@ -13,7 +13,7 @@ import model.fbdata.Interaction;
 import model.fbdata.Interaction.Type;
 import model.fbdata.User;
 
-public class PageRankArticleTest {
+public class PageRankBookExampleTest {
 
 	private GroupNetworkGraph graph = new GroupNetworkGraph(123123L);
 
@@ -62,7 +62,7 @@ public class PageRankArticleTest {
 
 	@After
 	public void assertValuesSumToOne() {
-		PageRankArticleTest.assertValuesSumToOne(nodesToPageRanks.values());
+		PageRankBookExampleTest.assertValuesSumToOne(nodesToPageRanks.values());
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class PageRankArticleTest {
 	@Test
 	public void twoSteps() throws Exception {
 		nodesToPageRanks = pageRank.compute(2);
-		// XXX the article incorrectly shows A with PageRank 3/16
+		// XXX the book chapter incorrectly shows A with PageRank 3/16
 		assertEquals(new Double(5 / 16.0), nodesToPageRanks.get(nodeA));
 		assertEquals(new Double(1 / 4.0), nodesToPageRanks.get(nodeB));
 		assertEquals(new Double(1 / 4.0), nodesToPageRanks.get(nodeC));

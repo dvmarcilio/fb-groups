@@ -46,7 +46,7 @@ public class PageSimpleRankTest {
 
 	@After
 	public void assertValuesSumToOne() {
-		PageRankArticleTest.assertValuesSumToOne(nodesToPageRank.values());
+		PageRankBookExampleTest.assertValuesSumToOne(nodesToPageRank.values());
 	}
 
 	@Test
