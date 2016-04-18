@@ -147,7 +147,7 @@ public class PageRank {
 
 		private BasicPageRankUpdate basicPageRankUpdate = new BasicPageRankUpdate();
 
-		private HashMap<Node, Double> scaledNodeToPageRank;
+		private HashMap<Node, Double> scaledNodeToPageRank = new HashMap<>();
 
 		private HashMap<Node, Double> execute() {
 			executeBasicUpdateOnAllNodes();
@@ -157,17 +157,16 @@ public class PageRank {
 
 		private void executeBasicUpdateOnAllNodes() {
 			graph.getNodes().forEach(n -> basicPageRankUpdate.execute(n));
-			scaledNodeToPageRank = basicPageRankUpdate
-					.getIterationNodeToPageRank();
 		}
 
 		private void scaleNodesPageRank() {
-			scaledNodeToPageRank.keySet().forEach(n -> scaleNode(n));
+			basicPageRankUpdate.iterationNodeToPageRank.keySet()
+					.forEach(n -> scaleNode(n));
 		}
 
 		private void scaleNode(Node node) {
-			double nodePageRankScaledDown = getNodePageRank(node)
-					* SCALING_FACTOR;
+			double nodePageRankScaledDown = basicPageRankUpdate
+					.getIterationNodeToPageRank().get(node) * SCALING_FACTOR;
 			double finalNodePageRank = nodePageRankScaledDown + scaledShare;
 			scaledNodeToPageRank.put(node, finalNodePageRank);
 		}
