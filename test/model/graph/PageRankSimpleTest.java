@@ -15,7 +15,7 @@ import org.junit.Test;
 import model.fbdata.Interaction;
 import model.fbdata.Interaction.Type;
 
-public class PageSimpleRankTest {
+public class PageRankSimpleTest {
 
 	private GroupNetworkGraph graph = new GroupNetworkGraph(GROUP_ID);
 
