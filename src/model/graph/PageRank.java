@@ -55,9 +55,7 @@ public class PageRank {
 	private void basicPageRankUpdate() {
 		BasicPageRankUpdate basicPageRankUpdate = new BasicPageRankUpdate();
 
-		for (Node node : graph.getNodes()) {
-			basicPageRankUpdate.execute(node);
-		}
+		graph.getNodes().forEach(n -> basicPageRankUpdate.execute(n));
 
 		nodeToPageRank = basicPageRankUpdate.getIterationNodeToPageRank();
 	}
