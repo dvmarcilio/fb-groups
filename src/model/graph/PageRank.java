@@ -2,12 +2,15 @@ package model.graph;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public class PageRank {
 
-	private static final int STEPS = 5;
-
 	public static final Double TOTAL_PAGE_RANK = 1.0;
+
+	public static final Double SCALING_FACTOR = 0.85;
+
+	private static final int STEPS = 100;
 
 	private GroupNetworkGraph graph;
 
@@ -15,9 +18,12 @@ public class PageRank {
 
 	private HashMap<Node, Double> nodeToZeroValue = new HashMap<>();
 
+	private Double scaledShare;
+
 	public PageRank(GroupNetworkGraph graph) {
 		this.graph = graph;
 		initPageRankNodes();
+		computeScaledShare();
 	}
 
 	private void initPageRankNodes() {
@@ -27,6 +33,12 @@ public class PageRank {
 			nodeToPageRank.put(node, initialPageRankValue);
 			nodeToZeroValue.put(node, 0.0);
 		}
+	}
+
+	private void computeScaledShare() {
+		double residualPageRankFactor = TOTAL_PAGE_RANK - SCALING_FACTOR;
+		int numNodes = graph.getNumNodes();
+		scaledShare = residualPageRankFactor / numNodes;
 	}
 
 	public HashMap<Node, Double> compute() {
@@ -54,6 +66,28 @@ public class PageRank {
 		return nodeToPageRank.get(node);
 	}
 
+	public Map<Node, Double> computeScaled() {
+		return computeScaled(STEPS);
+	}
+
+	public Map<Node, Double> computeScaled(int steps) {
+		BasicPageRankUpdate basicPageRankUpdate = new BasicPageRankUpdate();
+		for (int i = 0; i < steps; i++) {
+			for (Node node : graph.getNodes()) {
+				basicPageRankUpdate.execute(node);
+				scaleNode(node, basicPageRankUpdate);
+			}
+		}
+		return basicPageRankUpdate.getIterationNodeToPageRank();
+	}
+
+	private void scaleNode(Node node, BasicPageRankUpdate basicPageRankUpdate) {
+		double nodePageRankScaledDown = basicPageRankUpdate
+				.getIterationNodePageRank(node) * SCALING_FACTOR;
+		double finalNodePageRank = nodePageRankScaledDown + scaledShare;
+		basicPageRankUpdate.updateNodePageRank(node, finalNodePageRank);
+	}
+
 	private class BasicPageRankUpdate {
 
 		private HashMap<Node, Double> iterationNodeToPageRank = new HashMap<>(
@@ -63,6 +97,14 @@ public class PageRank {
 
 		private HashMap<Node, Double> getIterationNodeToPageRank() {
 			return iterationNodeToPageRank;
+		}
+
+		private Double getIterationNodePageRank(Node node) {
+			return iterationNodeToPageRank.get(node);
+		}
+
+		private void updateNodePageRank(Node node, double value) {
+			iterationNodeToPageRank.put(node, value);
 		}
 
 		private void execute(Node node) {
