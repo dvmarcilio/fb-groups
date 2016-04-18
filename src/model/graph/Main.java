@@ -86,14 +86,21 @@ public class Main {
 	}
 
 	private static void showPageRank() {
-		System.out.println("\n\n\n\n");
-		PageRank pr = new PageRank(graph);
-		Map<Node, Double> nodesToPageRank = pr.compute();
+		System.out.println("\n\n");
+		printNonScaledPageRank();
+		printScaledPageRank();
+	}
+
+	private static void printNonScaledPageRank() {
+		Map<Node, Double> nodesToPageRank = new PageRank(graph).compute();
 		assertThatValuesSumUpToOne(nodesToPageRank);
 		nodesToPageRank = sortByValue(nodesToPageRank);
+		printPageRanks(nodesToPageRank);
+	}
 
+	private static void printPageRanks(Map<Node, Double> nodesToPageRank) {
 		for (Map.Entry<Node, Double> entry : nodesToPageRank.entrySet()) {
-			System.out.println(entry.getKey().getUser() + "\nPageRank:"
+			System.out.println(entry.getKey() + "\nPageRank:"
 					+ entry.getValue() + "\n");
 		}
 	}
@@ -117,6 +124,15 @@ public class Main {
 				.forEachOrdered(e -> result.put(e.getKey(), e.getValue()));
 
 		return result;
+	}
+
+	private static void printScaledPageRank() {
+		Map<Node, Double> scaledNodeToPageRank = new PageRank(graph)
+				.computeScaled();
+		assertThatValuesSumUpToOne(scaledNodeToPageRank);
+		scaledNodeToPageRank = sortByValue(scaledNodeToPageRank);
+		System.out.println("\n\n SCALED PAGE RANK");
+		printPageRanks(scaledNodeToPageRank);
 	}
 
 }
