@@ -25,6 +25,8 @@ public class Main {
 
 	private static GroupNetworkGraph graph;
 
+	public static boolean PRINT = true;
+
 	public static void main(String[] args) throws Exception {
 		loadTheGraph();
 		showStats();
@@ -63,8 +65,10 @@ public class Main {
 	private static void showStats()
 			throws JsonParseException, JsonMappingException, IOException {
 		FunWithBasicStats stats = new FunWithBasicStats(graph);
-		stats.show();
-		printUsersNotInTheGroupAnymore();
+		if (PRINT) {
+			stats.show();
+			printUsersNotInTheGroupAnymore();
+		}
 	}
 
 	private static void printUsersNotInTheGroupAnymore()
@@ -99,9 +103,11 @@ public class Main {
 	}
 
 	private static void printPageRanks(Map<Node, Double> nodesToPageRank) {
-		for (Map.Entry<Node, Double> entry : nodesToPageRank.entrySet()) {
-			System.out.println(entry.getKey() + "\nPageRank:"
-					+ entry.getValue() + "\n");
+		if (PRINT) {
+			for (Map.Entry<Node, Double> entry : nodesToPageRank.entrySet()) {
+				System.out.println(entry.getKey() + "\nPageRank:"
+						+ entry.getValue() + "\n");
+			}
 		}
 	}
 
