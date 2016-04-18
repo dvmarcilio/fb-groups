@@ -41,74 +41,82 @@ public class PageRank {
 	}
 
 	private void basicPageRankUpdate() {
-		HashMap<Node, Double> iterationNodeToPageRank = new HashMap<>(
-				nodeToZeroValue);
+		BasicPageRankUpdate basicPageRankUpdate = new BasicPageRankUpdate();
 
-		for (Node node : iterationNodeToPageRank.keySet()) {
-
-			passPageRankSharesToNeighbors(iterationNodeToPageRank, node);
-
-			passAllCurrentPageRankToItselfIfNoNeighbors(iterationNodeToPageRank,
-					node);
-
+		for (Node node : graph.getNodes()) {
+			basicPageRankUpdate.execute(node);
 		}
 
-		nodeToPageRank = iterationNodeToPageRank;
+		nodeToPageRank = basicPageRankUpdate.getIterationNodeToPageRank();
 	}
 
-	private double getCurrentNodePageRank(Node node) {
+	private double getNodePageRank(Node node) {
 		return nodeToPageRank.get(node);
 	}
 
-	private void passPageRankSharesToNeighbors(
-			HashMap<Node, Double> iterationNodeToPageRank, Node node) {
-		double nodePageRankSingleShare = getCurrentNodePageRank(node)
-				/ node.getOutDegree();
-		for (Node neighbor : node.getNeighbors()) {
-			passPageRankShareToNeighbor(iterationNodeToPageRank, node,
+	private class BasicPageRankUpdate {
+
+		private HashMap<Node, Double> iterationNodeToPageRank = new HashMap<>(
+				nodeToZeroValue);
+
+		private Node node;
+
+		private HashMap<Node, Double> getIterationNodeToPageRank() {
+			return iterationNodeToPageRank;
+		}
+
+		private void execute(Node node) {
+			this.node = node;
+			passPageRankSharesToNeighbors();
+			passAllCurrentPageRankToItselfIfNoNeighbors();
+		}
+
+		private void passPageRankSharesToNeighbors() {
+			double nodePageRankSingleShare = getNodePageRank(node)
+					/ node.getOutDegree();
+			for (Node neighbor : node.getNeighbors()) {
+				passPageRankShareToNeighbor(nodePageRankSingleShare, neighbor);
+			}
+		}
+
+		private void passPageRankShareToNeighbor(double nodePageRankSingleShare,
+				Node neighbor) {
+			double neighborNewPageRank = figureNeighborNewPageRank(
 					nodePageRankSingleShare, neighbor);
+			iterationNodeToPageRank.put(neighbor, neighborNewPageRank);
 		}
-	}
 
-	private void passPageRankShareToNeighbor(
-			HashMap<Node, Double> iterationNodeToPageRank, Node node,
-			double nodePageRankSingleShare, Node neighbor) {
-		double neighborNewPageRank = figureNeighborNewPageRank(
-				iterationNodeToPageRank, node, nodePageRankSingleShare,
-				neighbor);
-		iterationNodeToPageRank.put(neighbor, neighborNewPageRank);
-	}
-
-	private double figureNeighborNewPageRank(
-			HashMap<Node, Double> iterationNodeToPageRank, Node node,
-			double currNodePageRankShare, Node neighbor) {
-		double neighborPageRankShare = figureSharerBasedOnHowManyEdgesToNeighbor(
-				node, currNodePageRankShare, neighbor);
-		double neighborPageRank = iterationNodeToPageRank.get(neighbor);
-		return neighborPageRank + neighborPageRankShare;
-	}
-
-	private double figureSharerBasedOnHowManyEdgesToNeighbor(Node node,
-			double currNodePageRankShare, Node neighbor) {
-		int totalEdgesToNeighbor = retrieveTotalOutEdgesToNeighbor(node,
-				neighbor);
-		return currNodePageRankShare * totalEdgesToNeighbor;
-	}
-
-	private int retrieveTotalOutEdgesToNeighbor(Node node, Node neighbor) {
-		Interactions neighborInteractions = node
-				.getInteractionsWith(neighbor.getUser());
-		return neighborInteractions.getTotal();
-	}
-
-	private void passAllCurrentPageRankToItselfIfNoNeighbors(
-			HashMap<Node, Double> iterationNodeToPageRank, Node node) {
-		if (node.getOutDegree() == 0) {
-			double nodeIterationPageRank = iterationNodeToPageRank.get(node);
-			double nodeNewPageRank = nodeIterationPageRank
-					+ getCurrentNodePageRank(node);
-			iterationNodeToPageRank.put(node, nodeNewPageRank);
+		private double figureNeighborNewPageRank(double currNodePageRankShare,
+				Node neighbor) {
+			double neighborPageRankShare = figureSharerBasedOnHowManyEdgesToNeighbor(
+					currNodePageRankShare, neighbor);
+			double neighborPageRank = iterationNodeToPageRank.get(neighbor);
+			return neighborPageRank + neighborPageRankShare;
 		}
+
+		private double figureSharerBasedOnHowManyEdgesToNeighbor(
+				double currNodePageRankShare, Node neighbor) {
+			int totalEdgesToNeighbor = retrieveTotalOutEdgesToNeighbor(
+					neighbor);
+			return currNodePageRankShare * totalEdgesToNeighbor;
+		}
+
+		private int retrieveTotalOutEdgesToNeighbor(Node neighbor) {
+			Interactions neighborInteractions = node
+					.getInteractionsWith(neighbor.getUser());
+			return neighborInteractions.getTotal();
+		}
+
+		private void passAllCurrentPageRankToItselfIfNoNeighbors() {
+			if (node.getOutDegree() == 0) {
+				double nodeIterationPageRank = iterationNodeToPageRank
+						.get(node);
+				double nodeNewPageRank = nodeIterationPageRank
+						+ getNodePageRank(node);
+				iterationNodeToPageRank.put(node, nodeNewPageRank);
+			}
+		}
+
 	}
 
 }
