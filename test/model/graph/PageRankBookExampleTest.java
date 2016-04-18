@@ -1,6 +1,6 @@
 package model.graph;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Collection;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class PageRankBookExampleTest {
 
 	private PageRank pageRank;
 
-	private Map<Node, Double> nodesToPageRanks;
+	private Map<Node, Double> nodeToPageRank;
 
 	@Before
 	public void setUp() {
@@ -62,34 +62,34 @@ public class PageRankBookExampleTest {
 
 	@After
 	public void assertValuesSumToOne() {
-		PageRankBookExampleTest.assertValuesSumToOne(nodesToPageRanks.values());
+		PageRankBookExampleTest.assertValuesSumToOne(nodeToPageRank.values());
 	}
 
 	@Test
 	public void oneStep() {
-		nodesToPageRanks = pageRank.compute(1);
-		assertEquals(new Double(1 / 2.0), nodesToPageRanks.get(nodeA));
-		assertEquals(new Double(1 / 16.0), nodesToPageRanks.get(nodeB));
-		assertEquals(new Double(1 / 16.0), nodesToPageRanks.get(nodeC));
-		assertEquals(new Double(1 / 16.0), nodesToPageRanks.get(nodeD));
-		assertEquals(new Double(1 / 16.0), nodesToPageRanks.get(nodeE));
-		assertEquals(new Double(1 / 16.0), nodesToPageRanks.get(nodeF));
-		assertEquals(new Double(1 / 16.0), nodesToPageRanks.get(nodeG));
-		assertEquals(new Double(1 / 8.0), nodesToPageRanks.get(nodeH));
+		nodeToPageRank = pageRank.compute(1);
+		assertEquals(new Double(1 / 2.0), nodeToPageRank.get(nodeA));
+		assertEquals(new Double(1 / 16.0), nodeToPageRank.get(nodeB));
+		assertEquals(new Double(1 / 16.0), nodeToPageRank.get(nodeC));
+		assertEquals(new Double(1 / 16.0), nodeToPageRank.get(nodeD));
+		assertEquals(new Double(1 / 16.0), nodeToPageRank.get(nodeE));
+		assertEquals(new Double(1 / 16.0), nodeToPageRank.get(nodeF));
+		assertEquals(new Double(1 / 16.0), nodeToPageRank.get(nodeG));
+		assertEquals(new Double(1 / 8.0), nodeToPageRank.get(nodeH));
 	}
 
 	@Test
 	public void twoSteps() throws Exception {
-		nodesToPageRanks = pageRank.compute(2);
+		nodeToPageRank = pageRank.compute(2);
 		// XXX the book chapter incorrectly shows A with PageRank 3/16
-		assertEquals(new Double(5 / 16.0), nodesToPageRanks.get(nodeA));
-		assertEquals(new Double(1 / 4.0), nodesToPageRanks.get(nodeB));
-		assertEquals(new Double(1 / 4.0), nodesToPageRanks.get(nodeC));
-		assertEquals(new Double(1 / 32.0), nodesToPageRanks.get(nodeD));
-		assertEquals(new Double(1 / 32.0), nodesToPageRanks.get(nodeE));
-		assertEquals(new Double(1 / 32.0), nodesToPageRanks.get(nodeF));
-		assertEquals(new Double(1 / 32.0), nodesToPageRanks.get(nodeG));
-		assertEquals(new Double(1 / 16.0), nodesToPageRanks.get(nodeH));
+		assertEquals(new Double(5 / 16.0), nodeToPageRank.get(nodeA));
+		assertEquals(new Double(1 / 4.0), nodeToPageRank.get(nodeB));
+		assertEquals(new Double(1 / 4.0), nodeToPageRank.get(nodeC));
+		assertEquals(new Double(1 / 32.0), nodeToPageRank.get(nodeD));
+		assertEquals(new Double(1 / 32.0), nodeToPageRank.get(nodeE));
+		assertEquals(new Double(1 / 32.0), nodeToPageRank.get(nodeF));
+		assertEquals(new Double(1 / 32.0), nodeToPageRank.get(nodeG));
+		assertEquals(new Double(1 / 16.0), nodeToPageRank.get(nodeH));
 	}
 
 	public static void assertValuesSumToOne(Collection<Double> values) {
