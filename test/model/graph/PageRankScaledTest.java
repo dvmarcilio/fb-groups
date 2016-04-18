@@ -10,15 +10,14 @@ import static model.graph.GraphTestHelper.NODE_G;
 import static model.graph.GraphTestHelper.NODE_H;
 import static model.graph.GraphTestHelper.NON_SCALED_EXAMPLE_GRAPH;
 import static model.graph.GraphTestHelper.SCALED_EXAMPLE_GRAPH;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 import java.util.Map;
 
 import org.junit.After;
 import org.junit.Test;
 
-public class PageRankScaledReasoningTest {
+public class PageRankScaledTest {
 
 	private static final int STEPS = 10000;
 
@@ -69,6 +68,20 @@ public class PageRankScaledReasoningTest {
 		assertEquals(new Double(0.071875), nodeToPageRank.get(NODE_F), 0.01);
 		assertEquals(new Double(0.071875), nodeToPageRank.get(NODE_G), 0.01);
 		assertEquals(new Double(0.125), nodeToPageRank.get(NODE_H), 0.01);
+	}
+
+	@Test
+	public void twoStepScaledOnNonScaledExampleGraph() {
+		nodeToPageRank = new PageRank(NON_SCALED_EXAMPLE_GRAPH)
+				.computeScaled(2);
+		assertEquals(new Double(0.30828125), nodeToPageRank.get(NODE_A), 0.01);
+		assertEquals(new Double(0.20734375), nodeToPageRank.get(NODE_B), 0.01);
+		assertEquals(new Double(0.20734375), nodeToPageRank.get(NODE_C), 0.01);
+		assertEquals(new Double(0.049296875), nodeToPageRank.get(NODE_D), 0.01);
+		assertEquals(new Double(0.049296875), nodeToPageRank.get(NODE_E), 0.01);
+		assertEquals(new Double(0.049296875), nodeToPageRank.get(NODE_F), 0.01);
+		assertEquals(new Double(0.049296875), nodeToPageRank.get(NODE_G), 0.01);
+		assertEquals(new Double(0.07984375), nodeToPageRank.get(NODE_H), 0.01);
 	}
 
 }
