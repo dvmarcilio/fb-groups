@@ -13,10 +13,9 @@ public class PageRank {
 
 	private HashMap<Node, Double> nodeToPageRank = new HashMap<>();
 
-	private HashMap<Node, Double> nodeToPageRankPreIteration = new HashMap<>();
+	private HashMap<Node, Double> nodeToZeroValue = new HashMap<>();
 
 	public PageRank(GroupNetworkGraph graph) {
-		super();
 		this.graph = graph;
 		initPageRankNodes();
 	}
@@ -26,7 +25,7 @@ public class PageRank {
 		Double initialPageRankValue = TOTAL_PAGE_RANK / nodes.size();
 		for (Node node : nodes) {
 			nodeToPageRank.put(node, initialPageRankValue);
-			nodeToPageRankPreIteration.put(node, 0.0);
+			nodeToZeroValue.put(node, 0.0);
 		}
 	}
 
@@ -42,41 +41,74 @@ public class PageRank {
 	}
 
 	private void basicPageRankUpdate() {
-		HashMap<Node, Double> preIterationNodeToPageRank = new HashMap<>(
-				nodeToPageRank);
 		HashMap<Node, Double> iterationNodeToPageRank = new HashMap<>(
-				nodeToPageRankPreIteration);
+				nodeToZeroValue);
 
 		for (Node node : iterationNodeToPageRank.keySet()) {
-			Double currentNodePageRank = preIterationNodeToPageRank.get(node);
-			Double currNodePageRankShare = currentNodePageRank
-					/ node.getOutDegree();
 
-			for (Node neighbor : node.getNeighbors()) {
-				Interactions neighborInteractions = node
-						.getInteractionsWith(neighbor.getUser());
-				int totalEdgesToNeighbor = neighborInteractions.getTotal();
+			passPageRankSharesToNeighbors(iterationNodeToPageRank, node);
 
-				Double neighborPageRank = iterationNodeToPageRank.get(neighbor);
-				Double neighborPageRankShare = currNodePageRankShare
-						* totalEdgesToNeighbor;
-				Double neighborNewPageRank = neighborPageRank
-						+ neighborPageRankShare;
-
-				iterationNodeToPageRank.put(neighbor, neighborNewPageRank);
-			}
-
-			if (node.getNeighbors().isEmpty()) {
-				Double nodeIterationPageRank = iterationNodeToPageRank
-						.get(node);
-				Double nodeNewPageRank = nodeIterationPageRank
-						+ currentNodePageRank;
-				iterationNodeToPageRank.put(node, nodeNewPageRank);
-			}
+			passAllCurrentPageRankToItselfIfNoNeighbors(iterationNodeToPageRank,
+					node);
 
 		}
 
 		nodeToPageRank = iterationNodeToPageRank;
+	}
+
+	private double getCurrentNodePageRank(Node node) {
+		return nodeToPageRank.get(node);
+	}
+
+	private void passPageRankSharesToNeighbors(
+			HashMap<Node, Double> iterationNodeToPageRank, Node node) {
+		double nodePageRankSingleShare = getCurrentNodePageRank(node)
+				/ node.getOutDegree();
+		for (Node neighbor : node.getNeighbors()) {
+			passPageRankShareToNeighbor(iterationNodeToPageRank, node,
+					nodePageRankSingleShare, neighbor);
+		}
+	}
+
+	private void passPageRankShareToNeighbor(
+			HashMap<Node, Double> iterationNodeToPageRank, Node node,
+			double nodePageRankSingleShare, Node neighbor) {
+		double neighborNewPageRank = figureNeighborNewPageRank(
+				iterationNodeToPageRank, node, nodePageRankSingleShare,
+				neighbor);
+		iterationNodeToPageRank.put(neighbor, neighborNewPageRank);
+	}
+
+	private double figureNeighborNewPageRank(
+			HashMap<Node, Double> iterationNodeToPageRank, Node node,
+			double currNodePageRankShare, Node neighbor) {
+		double neighborPageRankShare = figureSharerBasedOnHowManyEdgesToNeighbor(
+				node, currNodePageRankShare, neighbor);
+		double neighborPageRank = iterationNodeToPageRank.get(neighbor);
+		return neighborPageRank + neighborPageRankShare;
+	}
+
+	private double figureSharerBasedOnHowManyEdgesToNeighbor(Node node,
+			double currNodePageRankShare, Node neighbor) {
+		int totalEdgesToNeighbor = retrieveTotalOutEdgesToNeighbor(node,
+				neighbor);
+		return currNodePageRankShare * totalEdgesToNeighbor;
+	}
+
+	private int retrieveTotalOutEdgesToNeighbor(Node node, Node neighbor) {
+		Interactions neighborInteractions = node
+				.getInteractionsWith(neighbor.getUser());
+		return neighborInteractions.getTotal();
+	}
+
+	private void passAllCurrentPageRankToItselfIfNoNeighbors(
+			HashMap<Node, Double> iterationNodeToPageRank, Node node) {
+		if (node.getOutDegree() == 0) {
+			double nodeIterationPageRank = iterationNodeToPageRank.get(node);
+			double nodeNewPageRank = nodeIterationPageRank
+					+ getCurrentNodePageRank(node);
+			iterationNodeToPageRank.put(node, nodeNewPageRank);
+		}
 	}
 
 }
