@@ -12,7 +12,7 @@ public class PageRank {
 
 	private static final int STEPS = 100;
 
-	private GroupNetworkGraph graph;
+	private final GroupNetworkGraph graph;
 
 	private HashMap<Node, Double> nodeToPageRank = new HashMap<>();
 
@@ -71,21 +71,19 @@ public class PageRank {
 	}
 
 	public Map<Node, Double> computeScaled(int steps) {
-		BasicPageRankUpdate basicPageRankUpdate = new BasicPageRankUpdate();
-		for (int i = 0; i < steps; i++) {
-			for (Node node : graph.getNodes()) {
-				basicPageRankUpdate.execute(node);
-				scaleNode(node, basicPageRankUpdate);
-			}
-		}
-		return basicPageRankUpdate.getIterationNodeToPageRank();
+		compute(steps);
+		scaleNodesPageRank();
+		return nodeToPageRank;
 	}
 
-	private void scaleNode(Node node, BasicPageRankUpdate basicPageRankUpdate) {
-		double nodePageRankScaledDown = basicPageRankUpdate
-				.getIterationNodePageRank(node) * SCALING_FACTOR;
+	private void scaleNodesPageRank() {
+		nodeToPageRank.keySet().forEach(n -> scaleNode(n));
+	}
+
+	private void scaleNode(Node node) {
+		double nodePageRankScaledDown = getNodePageRank(node) * SCALING_FACTOR;
 		double finalNodePageRank = nodePageRankScaledDown + scaledShare;
-		basicPageRankUpdate.updateNodePageRank(node, finalNodePageRank);
+		nodeToPageRank.put(node, finalNodePageRank);
 	}
 
 	private class BasicPageRankUpdate {
@@ -97,14 +95,6 @@ public class PageRank {
 
 		private HashMap<Node, Double> getIterationNodeToPageRank() {
 			return iterationNodeToPageRank;
-		}
-
-		private Double getIterationNodePageRank(Node node) {
-			return iterationNodeToPageRank.get(node);
-		}
-
-		private void updateNodePageRank(Node node, double value) {
-			iterationNodeToPageRank.put(node, value);
 		}
 
 		private void execute(Node node) {
