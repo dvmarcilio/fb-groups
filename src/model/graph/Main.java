@@ -2,8 +2,13 @@ package model.graph;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -23,6 +28,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		loadTheGraph();
 		showStats();
+		showPageRank();
 	}
 
 	private static void loadTheGraph() throws Exception, JsonParseException,
@@ -63,7 +69,7 @@ public class Main {
 
 	private static void printUsersNotInTheGroupAnymore()
 			throws JsonParseException, JsonMappingException, IOException {
-		Set<User> usersNotInMembersJson = graph.getUsers();
+		Set<User> usersNotInMembersJson = new HashSet<>(graph.getUsers());
 		usersNotInMembersJson.removeAll(retrieveUsers());
 		System.out.println(
 				"Users with Facebook probably deleted or not in the group anymore: "
@@ -77,6 +83,40 @@ public class Main {
 				.getResourceAsStream("/data/maristao_members.json");
 		return mapper.readValue(is, mapper.getTypeFactory()
 				.constructCollectionLikeType(List.class, User.class));
+	}
+
+	private static void showPageRank() {
+		System.out.println("\n\n\n\n");
+		PageRank pr = new PageRank(graph);
+		Map<Node, Double> nodesToPageRank = pr.compute();
+		assertThatValuesSumUpToOne(nodesToPageRank);
+		nodesToPageRank = sortByValue(nodesToPageRank);
+
+		for (Map.Entry<Node, Double> entry : nodesToPageRank.entrySet()) {
+			System.out.println(entry.getKey().getUser() + "\nPageRank:"
+					+ entry.getValue() + "\n");
+		}
+	}
+
+	private static void assertThatValuesSumUpToOne(
+			Map<Node, Double> nodesToPageRank) {
+		double valuesSum = nodesToPageRank.values().stream()
+				.mapToDouble(v -> v.doubleValue()).sum();
+		if (Math.abs(valuesSum - PageRank.TOTAL_PAGE_RANK) >= 0.001) {
+			System.out.println("PAGERANK IS WRONG. Aborting...");
+			System.exit(0);
+		}
+	}
+
+	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(
+			Map<K, V> map) {
+		Map<K, V> result = new LinkedHashMap<>();
+		Stream<Entry<K, V>> st = map.entrySet().stream();
+
+		st.sorted(Map.Entry.<K, V> comparingByValue().reversed())
+				.forEachOrdered(e -> result.put(e.getKey(), e.getValue()));
+
+		return result;
 	}
 
 }
