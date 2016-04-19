@@ -71,9 +71,13 @@ public class PageRank {
 	 * @return
 	 */
 	public Map<Node, Double> computeScaled(int steps) {
+		return computeScaled(steps, DEFAULT_SCALING_FACTOR);
+	}
+
+	public Map<Node, Double> computeScaled(int steps, double scalingFactor) {
 		for (int i = 0; i < steps; i++) {
 			ScaledPageRankUpdate scaledPageRankUpdate = new ScaledPageRankUpdate(
-					DEFAULT_SCALING_FACTOR);
+					scalingFactor);
 			nodeToPageRank = scaledPageRankUpdate.execute();
 		}
 		return nodeToPageRank;
