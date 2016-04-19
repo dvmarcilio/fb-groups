@@ -26,26 +26,29 @@ public class FunWithBasicStats {
 	}
 
 	private void showPopularPeople() {
-		System.out
-				.println("Largest In Degree: " + getNodeWithLargestInDegree());
-		System.out.println(
-				"Largest Out Degree: " + getNodeWithLargestOutDegree());
+		System.out.println("\nTop 10 inDegree");
+		getTop10LargestInDegree().forEach(n -> System.out.println(n));
+
+		System.out.println("\nTop 10 outDegree");
+		getTop10LargestOutDegree().forEach(n -> System.out.println(n));
 	}
 
-	private Node getNodeWithLargestInDegree() {
+	private List<Node> getTop10LargestInDegree() {
 		return graph.getNodes().stream()
-				.max(Comparator.comparingInt(n -> n.getInDegree())).get();
+				.sorted(Comparator.comparingInt(Node::getInDegree).reversed())
+				.limit(10).collect(Collectors.toList());
+	}
+
+	private List<Node> getTop10LargestOutDegree() {
+		return graph.getNodes().stream()
+				.sorted(Comparator.comparingInt(Node::getOutDegree).reversed())
+				.limit(10).collect(Collectors.toList());
 	}
 
 	private List<Node> getAllZeroInDegree() {
 		return graph.getNodes().stream()
 				.filter(n -> ((Integer) n.getInDegree()).equals(0))
 				.collect(Collectors.toList());
-	}
-
-	private Node getNodeWithLargestOutDegree() {
-		return graph.getNodes().stream()
-				.max(Comparator.comparingInt(n -> n.getOutDegree())).get();
 	}
 
 	private List<Node> getAllZeroOutDegree() {
@@ -65,12 +68,13 @@ public class FunWithBasicStats {
 	}
 
 	private void showAllZeroInDegree(final List<Node> allZeroInDegree) {
-		System.out.println("Zero In Degree Count: " + allZeroInDegree.size());
+		System.out.println("\nZero In Degree Count: " + allZeroInDegree.size());
 		System.out.println("All zero In Degree: " + allZeroInDegree);
 	}
 
 	private void showAllZeroOutDegree(final List<Node> allZeroOutDegree) {
-		System.out.println("Zero Out Degree Count: " + allZeroOutDegree.size());
+		System.out
+				.println("\nZero Out Degree Count: " + allZeroOutDegree.size());
 		System.out.println("All zero Out Degree: " + allZeroOutDegree);
 	}
 
@@ -79,7 +83,7 @@ public class FunWithBasicStats {
 		List<Node> allZeroInAndOutDegree = new ArrayList<>(allZeroInDegree);
 		allZeroInAndOutDegree.retainAll(allZeroOutDegree);
 		System.out.println(
-				"Zero activity count: " + allZeroInAndOutDegree.size());
+				"\nZero activity count: " + allZeroInAndOutDegree.size());
 		System.out.println("All zero activity: " + allZeroInAndOutDegree);
 	}
 

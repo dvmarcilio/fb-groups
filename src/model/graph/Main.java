@@ -76,7 +76,7 @@ public class Main {
 		Set<User> usersNotInMembersJson = new HashSet<>(graph.getUsers());
 		usersNotInMembersJson.removeAll(retrieveUsers());
 		System.out.println(
-				"Users with Facebook probably deleted or not in the group anymore: "
+				"\nUsers with Facebook probably deleted or not in the group anymore: "
 						+ usersNotInMembersJson.size());
 		System.out.println(usersNotInMembersJson);
 	}
