@@ -1,4 +1,4 @@
-package model.graph;
+package data;
 
 import model.fbdata.User;
 

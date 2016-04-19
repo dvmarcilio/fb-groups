@@ -1,13 +1,13 @@
 package model.graph;
 
-import static model.graph.JSONTestFileData.DIEGO;
-import static model.graph.JSONTestFileData.DIEGO_COMMENT_ID;
-import static model.graph.JSONTestFileData.GROUP_ID;
-import static model.graph.JSONTestFileData.GUSTAVO;
-import static model.graph.JSONTestFileData.MURILLO;
-import static model.graph.JSONTestFileData.MURILLO_COMMENT_ID;
-import static model.graph.JSONTestFileData.POST_FILE_PATH;
-import static model.graph.JSONTestFileData.POST_ID_1;
+import static data.JSONTestFileData.DIEGO;
+import static data.JSONTestFileData.DIEGO_COMMENT_ID;
+import static data.JSONTestFileData.GROUP_ID;
+import static data.JSONTestFileData.GUSTAVO;
+import static data.JSONTestFileData.MURILLO;
+import static data.JSONTestFileData.MURILLO_COMMENT_ID;
+import static data.JSONTestFileData.POST_FILE_PATH;
+import static data.JSONTestFileData.POST_ID_1;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.assertEquals;
