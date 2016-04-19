@@ -75,9 +75,9 @@ public class PageRank {
 	}
 
 	public Map<Node, Double> computeScaled(int steps, double scalingFactor) {
+		ScaledPageRankUpdate scaledPageRankUpdate = new ScaledPageRankUpdate(
+				scalingFactor);
 		for (int i = 0; i < steps; i++) {
-			ScaledPageRankUpdate scaledPageRankUpdate = new ScaledPageRankUpdate(
-					scalingFactor);
 			nodeToPageRank = scaledPageRankUpdate.execute();
 		}
 		return nodeToPageRank;
@@ -154,9 +154,9 @@ public class PageRank {
 
 		private double scaledShare;
 
-		private BasicPageRankUpdate basicPageRankUpdate = new BasicPageRankUpdate();
+		private BasicPageRankUpdate basicPageRankUpdate;
 
-		private HashMap<Node, Double> scaledNodeToPageRank = new HashMap<>();
+		private HashMap<Node, Double> scaledNodeToPageRank;
 
 		public ScaledPageRankUpdate(double scalingFactor) {
 			this.scalingFactor = scalingFactor;
@@ -170,6 +170,8 @@ public class PageRank {
 		}
 
 		private HashMap<Node, Double> execute() {
+			scaledNodeToPageRank = new HashMap<>();
+			basicPageRankUpdate = new BasicPageRankUpdate();
 			executeBasicUpdateOnAllNodes();
 			scaleNodesPageRank();
 			return scaledNodeToPageRank;
