@@ -12,6 +12,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import model.graph.Main;
+
 public class GroupFeed {
 
 	private static final String JSON_EXTENSION = ".json";
@@ -60,6 +62,11 @@ public class GroupFeed {
 	}
 
 	private static void printFeedRead(String fileName, GroupFeed feed) {
+		if (Main.PRINT)
+			doPrintFeedRead(fileName, feed);
+	}
+
+	private static void doPrintFeedRead(String fileName, GroupFeed feed) {
 		System.out.println("================================================");
 		System.out.println("File '" + fileName + JSON_EXTENSION + "' read.");
 		System.out.println("Posts: " + feed.getPosts().size());

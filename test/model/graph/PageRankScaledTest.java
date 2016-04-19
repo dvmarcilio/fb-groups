@@ -17,6 +17,10 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Test;
 
+/**
+ * All the Scaled Tests assume that the scaling factor is 0.85
+ *
+ */
 public class PageRankScaledTest {
 
 	private static final int STEPS = 10000;
@@ -89,7 +93,7 @@ public class PageRankScaledTest {
 		assertEquals(new Double(0.049296875), nodeToPageRank.get(NODE_G), 0.01);
 		assertEquals(new Double(0.07984375), nodeToPageRank.get(NODE_H), 0.01);
 	}
-	
+
 	@Test
 	public void threeStepsScaledOnNonScaledExampleGraph() {
 		PageRank pageRank = new PageRank(NON_SCALED_EXAMPLE_GRAPH);

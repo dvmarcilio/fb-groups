@@ -93,7 +93,7 @@ public class GroupNetworkGraphParsingTest {
 		Node groupNode = new Node(GROUP_USER);
 		Collection<Node> nodes = graph.getNodes();
 		nodes.forEach(
-				n -> assertThat(n.getNeighbors(), not(hasItem(groupNode))));
+				n -> assertThat(n.getOutNeighbors(), not(hasItem(groupNode))));
 	}
 
 	@Test
