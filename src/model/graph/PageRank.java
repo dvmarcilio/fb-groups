@@ -8,7 +8,7 @@ public class PageRank {
 
 	public static final Double TOTAL_PAGE_RANK = 1.0;
 
-	public static final Double DEFAULT_SCALING_FACTOR = 0.85;
+	private static final Double DEFAULT_SCALING_FACTOR = 0.85;
 
 	private static final int STEPS = 100;
 
@@ -32,10 +32,25 @@ public class PageRank {
 		}
 	}
 
+	/**
+	 * Run the <b>non</b> Scaled Page Rank on the graph passed in the
+	 * constructor for {@value #STEPS} iterations.
+	 * 
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
+	 */
 	public HashMap<Node, Double> compute() {
 		return compute(STEPS);
 	}
 
+	/**
+	 * Run the <b>non</b> Scaled Page Rank on the graph passed in the
+	 * constructor for {@code steps} iterations.
+	 * 
+	 * @param steps
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
+	 */
 	public HashMap<Node, Double> compute(int steps) {
 		for (int i = 0; i < steps; i++) {
 			basicPageRankUpdate();
@@ -56,24 +71,39 @@ public class PageRank {
 	}
 
 	/**
-	 * Run for STEPS iterations with scaling factor DEFAULT_SCALING_FACTOR.
+	 * Run Scaled PageRank for {@value #STEPS} on the graph passed in the
+	 * constructor iterations with scaling factor {@code DEFAULT_SCALING_FACTOR}
+	 * .
 	 * 
-	 * @return
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
 	 */
 	public Map<Node, Double> computeScaled() {
 		return computeScaled(STEPS);
 	}
 
 	/**
-	 * Run for steps iterations with scaling factor DEFAULT_SCALING_FACTOR.
+	 * Run Scaled PageRank for {@code steps} on the graph passed in the
+	 * constructor iterations with scaling factor {@code DEFAULT_SCALING_FACTOR}
+	 * .
 	 * 
 	 * @param steps
-	 * @return
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
 	 */
 	public Map<Node, Double> computeScaled(int steps) {
 		return computeScaled(steps, DEFAULT_SCALING_FACTOR);
 	}
 
+	/**
+	 * Run Scaled PageRank for {@code steps} on the graph passed in the
+	 * constructor iterations with scaling factor {@code scalingFactor}.
+	 * 
+	 * @param steps
+	 * @param scalingFactor
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
+	 */
 	public Map<Node, Double> computeScaled(int steps, double scalingFactor) {
 		ScaledPageRankUpdate scaledPageRankUpdate = new ScaledPageRankUpdate(
 				scalingFactor);
