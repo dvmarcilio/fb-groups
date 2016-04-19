@@ -117,13 +117,13 @@ public class PageRank {
 
 		private double figureNeighborNewPageRank(double currNodePageRankShare,
 				Node neighbor) {
-			double neighborPageRankShare = figureSharerBasedOnHowManyEdgesToNeighbor(
+			double neighborPageRankShare = figureShareBasedOnHowManyEdgesToNeighbor(
 					currNodePageRankShare, neighbor);
 			double neighborPageRank = iterationNodeToPageRank.get(neighbor);
 			return neighborPageRank + neighborPageRankShare;
 		}
 
-		private double figureSharerBasedOnHowManyEdgesToNeighbor(
+		private double figureShareBasedOnHowManyEdgesToNeighbor(
 				double currNodePageRankShare, Node neighbor) {
 			int totalEdgesToNeighbor = retrieveTotalOutEdgesToNeighbor(
 					neighbor);
