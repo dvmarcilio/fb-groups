@@ -100,14 +100,38 @@ public class PageRankScaledTest {
 
 		nodeToPageRank = pageRank.computeScaled(3);
 
-		assertEquals(new Double(0.21232421875), nodeToPageRank.get(NODE_A), 0.01);
-		assertEquals(new Double(0.14976953125), nodeToPageRank.get(NODE_B), 0.01);
-		assertEquals(new Double(0.14976953125), nodeToPageRank.get(NODE_C), 0.01);
-		assertEquals(new Double(0.10687109375), nodeToPageRank.get(NODE_D), 0.01);
-		assertEquals(new Double(0.10687109375), nodeToPageRank.get(NODE_E), 0.01);
-		assertEquals(new Double(0.10687109375), nodeToPageRank.get(NODE_F), 0.01);
-		assertEquals(new Double(0.10687109375), nodeToPageRank.get(NODE_G), 0.01);
-		assertEquals(new Double(0.06065234375), nodeToPageRank.get(NODE_H), 0.01);
+		assertEquals(new Double(0.21232421875), nodeToPageRank.get(NODE_A),
+				0.01);
+		assertEquals(new Double(0.14976953125), nodeToPageRank.get(NODE_B),
+				0.01);
+		assertEquals(new Double(0.14976953125), nodeToPageRank.get(NODE_C),
+				0.01);
+		assertEquals(new Double(0.10687109375), nodeToPageRank.get(NODE_D),
+				0.01);
+		assertEquals(new Double(0.10687109375), nodeToPageRank.get(NODE_E),
+				0.01);
+		assertEquals(new Double(0.10687109375), nodeToPageRank.get(NODE_F),
+				0.01);
+		assertEquals(new Double(0.10687109375), nodeToPageRank.get(NODE_G),
+				0.01);
+		assertEquals(new Double(0.06065234375), nodeToPageRank.get(NODE_H),
+				0.01);
+	}
+
+	@Test
+	public void oneStepScaledOnNonScaledExampleGraphWithDifferentScalingFactor() {
+		PageRank pageRank = new PageRank(NON_SCALED_EXAMPLE_GRAPH);
+		
+		nodeToPageRank = pageRank.computeScaled(1, 0.80);
+		
+		assertEquals(new Double(0.425), nodeToPageRank.get(NODE_A), 0.01);
+		assertEquals(new Double(0.075), nodeToPageRank.get(NODE_B), 0.01);
+		assertEquals(new Double(0.075), nodeToPageRank.get(NODE_C), 0.01);
+		assertEquals(new Double(0.075), nodeToPageRank.get(NODE_D), 0.01);
+		assertEquals(new Double(0.075), nodeToPageRank.get(NODE_E), 0.01);
+		assertEquals(new Double(0.075), nodeToPageRank.get(NODE_F), 0.01);
+		assertEquals(new Double(0.075), nodeToPageRank.get(NODE_G), 0.01);
+		assertEquals(new Double(0.125), nodeToPageRank.get(NODE_H), 0.01);
 	}
 
 }

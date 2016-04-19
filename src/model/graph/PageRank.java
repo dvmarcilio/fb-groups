@@ -8,7 +8,7 @@ public class PageRank {
 
 	public static final Double TOTAL_PAGE_RANK = 1.0;
 
-	public static final Double SCALING_FACTOR = 0.85;
+	private static final Double DEFAULT_SCALING_FACTOR = 0.85;
 
 	private static final int STEPS = 100;
 
@@ -18,12 +18,9 @@ public class PageRank {
 
 	private HashMap<Node, Double> nodeToZeroValue = new HashMap<>();
 
-	private Double scaledShare;
-
 	public PageRank(GroupNetworkGraph graph) {
 		this.graph = graph;
 		initPageRankNodes();
-		computeScaledShare();
 	}
 
 	private void initPageRankNodes() {
@@ -35,16 +32,25 @@ public class PageRank {
 		}
 	}
 
-	private void computeScaledShare() {
-		double residualPageRankFactor = TOTAL_PAGE_RANK - SCALING_FACTOR;
-		int numNodes = graph.getNumNodes();
-		scaledShare = residualPageRankFactor / numNodes;
-	}
-
+	/**
+	 * Run the <b>non</b> Scaled Page Rank on the graph passed in the
+	 * constructor for {@value #STEPS} iterations.
+	 * 
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
+	 */
 	public HashMap<Node, Double> compute() {
 		return compute(STEPS);
 	}
 
+	/**
+	 * Run the <b>non</b> Scaled Page Rank on the graph passed in the
+	 * constructor for {@code steps} iterations.
+	 * 
+	 * @param steps
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
+	 */
 	public HashMap<Node, Double> compute(int steps) {
 		for (int i = 0; i < steps; i++) {
 			basicPageRankUpdate();
@@ -64,13 +70,44 @@ public class PageRank {
 		return nodeToPageRank.get(node);
 	}
 
+	/**
+	 * Run Scaled PageRank for {@value #STEPS} on the graph passed in the
+	 * constructor iterations with scaling factor {@code DEFAULT_SCALING_FACTOR}
+	 * .
+	 * 
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
+	 */
 	public Map<Node, Double> computeScaled() {
 		return computeScaled(STEPS);
 	}
 
+	/**
+	 * Run Scaled PageRank for {@code steps} on the graph passed in the
+	 * constructor iterations with scaling factor {@code DEFAULT_SCALING_FACTOR}
+	 * .
+	 * 
+	 * @param steps
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
+	 */
 	public Map<Node, Double> computeScaled(int steps) {
+		return computeScaled(steps, DEFAULT_SCALING_FACTOR);
+	}
+
+	/**
+	 * Run Scaled PageRank for {@code steps} on the graph passed in the
+	 * constructor iterations with scaling factor {@code scalingFactor}.
+	 * 
+	 * @param steps
+	 * @param scalingFactor
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
+	 */
+	public Map<Node, Double> computeScaled(int steps, double scalingFactor) {
+		ScaledPageRankUpdate scaledPageRankUpdate = new ScaledPageRankUpdate(
+				scalingFactor);
 		for (int i = 0; i < steps; i++) {
-			ScaledPageRankUpdate scaledPageRankUpdate = new ScaledPageRankUpdate();
 			nodeToPageRank = scaledPageRankUpdate.execute();
 		}
 		return nodeToPageRank;
@@ -110,13 +147,13 @@ public class PageRank {
 
 		private double figureNeighborNewPageRank(double currNodePageRankShare,
 				Node neighbor) {
-			double neighborPageRankShare = figureSharerBasedOnHowManyEdgesToNeighbor(
+			double neighborPageRankShare = figureShareBasedOnHowManyEdgesToNeighbor(
 					currNodePageRankShare, neighbor);
 			double neighborPageRank = iterationNodeToPageRank.get(neighbor);
 			return neighborPageRank + neighborPageRankShare;
 		}
 
-		private double figureSharerBasedOnHowManyEdgesToNeighbor(
+		private double figureShareBasedOnHowManyEdgesToNeighbor(
 				double currNodePageRankShare, Node neighbor) {
 			int totalEdgesToNeighbor = retrieveTotalOutEdgesToNeighbor(
 					neighbor);
@@ -143,11 +180,28 @@ public class PageRank {
 
 	private class ScaledPageRankUpdate {
 
-		private BasicPageRankUpdate basicPageRankUpdate = new BasicPageRankUpdate();
+		private double scalingFactor;
 
-		private HashMap<Node, Double> scaledNodeToPageRank = new HashMap<>();
+		private double scaledShare;
+
+		private BasicPageRankUpdate basicPageRankUpdate;
+
+		private HashMap<Node, Double> scaledNodeToPageRank;
+
+		public ScaledPageRankUpdate(double scalingFactor) {
+			this.scalingFactor = scalingFactor;
+			computeScaledShare();
+		}
+
+		private void computeScaledShare() {
+			double residualPageRankFactor = TOTAL_PAGE_RANK - scalingFactor;
+			int numNodes = graph.getNumNodes();
+			scaledShare = residualPageRankFactor / numNodes;
+		}
 
 		private HashMap<Node, Double> execute() {
+			scaledNodeToPageRank = new HashMap<>();
+			basicPageRankUpdate = new BasicPageRankUpdate();
 			executeBasicUpdateOnAllNodes();
 			scaleNodesPageRank();
 			return scaledNodeToPageRank;
@@ -164,7 +218,7 @@ public class PageRank {
 
 		private void scaleNode(Node node) {
 			double nodePageRankScaledDown = basicPageRankUpdate
-					.getIterationNodeToPageRank().get(node) * SCALING_FACTOR;
+					.getIterationNodeToPageRank().get(node) * scalingFactor;
 			double finalNodePageRank = nodePageRankScaledDown + scaledShare;
 			scaledNodeToPageRank.put(node, finalNodePageRank);
 		}
