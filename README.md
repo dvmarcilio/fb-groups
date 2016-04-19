@@ -38,7 +38,7 @@ What is being modeled as a graph are interactions between users. Interactions fr
 Example: When an User posts something to the group, and this post does not tag anyone, does not have comments and likes, this post will not yield any interaction, therefore no changes will be made to the graph. 
 
 ## PageRank
-Implementations based completely on the great [Chapter 14 of the Book _Networks, Crowds, and Markets: Reasoning about a Highly Connected World._ by David Easley and John Kleinberg](http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch14.pdf).
+Implementations based completely on [Chapter 14 of the Book _Networks, Crowds, and Markets: Reasoning about a Highly Connected World._ by David Easley and John Kleinberg](http://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch14.pdf). Specifically, the implementation is based on repeated improvement, as described in the chapter.
 
 One little addition, an obvious one but a modification nonetheless, was to consider that the graph is a multigraph. So to figure out how much of PageRank share a neighbor would receive, the number of interactions to this neighbor was considered.
 Consider a graph with _Node A_, having three edges to _Node B_, and one edge to _Node C_. Then _Node 'B'_ would receive 3/4 of _Node A_'s PageRank, and _Node 'C'_ would receive 1/4.
