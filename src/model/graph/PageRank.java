@@ -71,9 +71,9 @@ public class PageRank {
 	}
 
 	/**
-	 * Run Scaled PageRank for {@value #STEPS} on the graph passed in the
-	 * constructor iterations with scaling factor {@code DEFAULT_SCALING_FACTOR}
-	 * .
+	 * Run Scaled PageRank for {@value #STEPS} iterations on the graph passed in
+	 * the constructor iterations with scaling factor
+	 * {@code DEFAULT_SCALING_FACTOR} .
 	 * 
 	 * @return a Map with {@link Node} as key, and {@code Double} values
 	 *         representing the Node's PageRank.
@@ -83,9 +83,21 @@ public class PageRank {
 	}
 
 	/**
-	 * Run Scaled PageRank for {@code steps} on the graph passed in the
-	 * constructor iterations with scaling factor {@code DEFAULT_SCALING_FACTOR}
-	 * .
+	 * Run Scaled PageRank for {@value #STEPS} iterations on the graph passed in
+	 * the constructor iterations with scaling factor {@code scalingFactor} .
+	 * 
+	 * @param scalingFactor
+	 * @return a Map with {@link Node} as key, and {@code Double} values
+	 *         representing the Node's PageRank.
+	 */
+	public Map<Node, Double> computeScaled(double scalingFactor) {
+		return computeScaled(STEPS, scalingFactor);
+	}
+
+	/**
+	 * Run Scaled PageRank for {@code steps} iterations on the graph passed in
+	 * the constructor iterations with scaling factor
+	 * {@code DEFAULT_SCALING_FACTOR} .
 	 * 
 	 * @param steps
 	 * @return a Map with {@link Node} as key, and {@code Double} values
@@ -96,8 +108,8 @@ public class PageRank {
 	}
 
 	/**
-	 * Run Scaled PageRank for {@code steps} on the graph passed in the
-	 * constructor iterations with scaling factor {@code scalingFactor}.
+	 * Run Scaled PageRank for {@code steps} iterations on the graph passed in
+	 * the constructor iterations with scaling factor {@code scalingFactor}.
 	 * 
 	 * @param steps
 	 * @param scalingFactor
