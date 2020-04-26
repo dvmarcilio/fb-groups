@@ -92,8 +92,8 @@
 					</annotationProcessors>
 					<compilerArgs>
 						<!-- If using JDK 8, use only the two arguments immediately below. -->
-						<arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
-						<arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+						<!-- <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>  -->
+						<!--  <arg>-Xbootclasspath/p:${annotatedJdk}</arg> -->
 						<!-- If using JDK 11, remove the two arguments above, remove the space
 							in the one below, and uncomment it. -->
 						<!-- <arg>-J- -add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg> -->
