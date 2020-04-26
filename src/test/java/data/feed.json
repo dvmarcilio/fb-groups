@@ -1,0 +1,362 @@
+{
+  "data": [
+    {
+      "id": "777_postId1",
+      "from": {
+        "name": "diego",
+        "id": "666"
+      },
+      "to": {
+        "data": [
+          {
+            "name": "GROUP",
+            "privacy": "SECRET",
+            "id": "777"
+          },
+          {
+            "name": "murillo",
+            "id": "123"
+          },
+          {
+            "name": "gustavo",
+            "id": "987"
+          },
+          {
+            "name": "diego",
+            "id": "666"
+          }
+        ]
+      },
+      "with_tags": {
+        "data": [
+          {
+            "name": "murillo",
+            "id": "123"
+          },
+          {
+            "name": "gustavo",
+            "id": "987"
+          }
+        ]
+      },
+      "message": "Post tagging murillo and gustavo.\nAlso in with_tags.",
+      "message_tags": {
+        "15": [
+          {
+            "id": "123",
+            "name": "murillo",
+            "type": "user",
+            "offset": 15,
+            "length": 14
+          }
+        ],
+        "32": [
+          {
+            "id": "987",
+            "name": "gustavo",
+            "type": "user",
+            "offset": 32,
+            "length": 15
+          }
+        ],
+        "89": [
+          {
+            "id": "666",
+            "name": "diego",
+            "type": "user",
+            "offset": 89,
+            "length": 14
+          }
+        ]
+      },
+      "actions": [
+        {
+          "name": "Comment",
+          "link": "https://www.facebook.com/777/posts/postId1"
+        },
+        {
+          "name": "Like",
+          "link": "https://www.facebook.com/777/posts/postId1"
+        },
+        {
+          "name": "Create Group Chat",
+          "link": "https://www.facebook.com/groups/777/"
+        }
+      ],
+      "privacy": {
+        "value": "CUSTOM",
+        "description": "",
+        "friends": "",
+        "allow": "",
+        "deny": ""
+      },
+      "type": "status",
+      "created_time": "2016-04-09T15:19:22+0000",
+      "updated_time": "2016-04-09T18:25:18+0000",
+      "is_hidden": false,
+      "subscribed": true,
+      "is_expired": false,
+      "likes": {
+        "data": [
+          {
+            "id": "666",
+            "name": "diego"
+          }
+        ],
+        "paging": {
+          "cursors": {
+            "before": "MTAxNTMzNDgzNTg5ODUyMjUZD",
+            "after": "MTAxNTMzNDgzNTg5ODUyMjUZD"
+          }
+        }
+      },
+      "comments": {
+        "data": [
+          {
+            "created_time": "2016-04-09T15:19:44+0000",
+            "from": {
+              "name": "diego",
+              "id": "666"
+            },
+            "message": "Comment tagging murillo.",
+            "can_remove": true,
+            "like_count": 0,
+            "message_tags": [
+              {
+                "id": "123",
+                "length": 14,
+                "name": "murillo",
+                "offset": 37,
+                "type": "user"
+              }
+            ],
+            "user_likes": false,
+            "id": "579024952264399"
+          },
+          {
+            "created_time": "2016-04-09T18:25:18+0000",
+            "from": {
+              "name": "murillo",
+              "id": "123"
+            },
+            "message": "WHATUP",
+            "can_remove": true,
+            "like_count": 1,
+            "user_likes": false,
+            "id": "579102535589974"
+          }
+        ],
+        "paging": {
+          "cursors": {
+            "before": "WTI5dGJXVnVkRjlqZAFhKemIzSTZAOVGM1TURJME9UVXlNalkwTXprNU9qRTBOakF5TVRVeE9EUT0ZD",
+            "after": "WTI5dGJXVnVkRjlqZAFhKemIzSTZAOVGM1TVRBeU5UTTFOVGc1T1RjME9qRTBOakF5TWpZAek1UZAz0ZD"
+          }
+        }
+      }
+    },
+    {
+      "id": "777_postId2",
+      "from": {
+        "name": "diego",
+        "id": "666"
+      },
+      "to": {
+        "data": [
+          {
+            "name": "GROUP",
+            "privacy": "SECRET",
+            "id": "777"
+          }
+        ]
+      },
+      "message": "Post",
+      "actions": [
+        {
+          "name": "Comment",
+          "link": "https://www.facebook.com/777/posts/postId2"
+        },
+        {
+          "name": "Like",
+          "link": "https://www.facebook.com/777/posts/postId2"
+        },
+        {
+          "name": "Create Group Chat",
+          "link": "https://www.facebook.com/groups/777/"
+        }
+      ],
+      "privacy": {
+        "value": "CUSTOM",
+        "description": "",
+        "friends": "",
+        "allow": "",
+        "deny": ""
+      },
+      "type": "status",
+      "created_time": "2016-04-08T22:15:46+0000",
+      "updated_time": "2016-04-09T15:13:36+0000",
+      "is_hidden": false,
+      "subscribed": true,
+      "is_expired": false,
+      "likes": {
+        "data": [
+          {
+            "id": "666",
+            "name": "diego"
+          }
+        ],
+        "paging": {
+          "cursors": {
+            "before": "MTAxNTMzNDgzNTg5ODUyMjUZD",
+            "after": "MTAxNTMzNDgzNTg5ODUyMjUZD"
+          }
+        }
+      },
+      "comments": {
+        "data": [
+          {
+            "created_time": "2016-04-08T22:15:56+0000",
+            "from": {
+              "name": "diego",
+              "id": "666"
+            },
+            "message": "comment",
+            "can_remove": true,
+            "like_count": 0,
+            "user_likes": false,
+            "id": "578732245627003"
+          }
+        ],
+        "paging": {
+          "cursors": {
+            "before": "WTI5dGJXVnVkRjlqZAFhKemIzSTZAOVGM0TnpNeU1qUTFOakkzTURBek9qRTBOakF4TlRNM05UWT0ZD",
+            "after": "WTI5dGJXVnVkRjlqZAFhKemIzSTZAOVGM0TnpNeU1qUTFOakkzTURBek9qRTBOakF4TlRNM05UWT0ZD"
+          }
+        }
+      }
+    },
+    {
+      "id": "777_postId3",
+      "from": {
+        "name": "diego",
+        "id": "666"
+      },
+      "to": {
+        "data": [
+          {
+            "name": "GROUP",
+            "privacy": "SECRET",
+            "id": "777"
+          }
+        ]
+      },
+      "with_tags": {
+        "data": [
+          {
+            "name": "murillo",
+            "id": "123"
+          },
+          {
+            "name": "gustavo",
+            "id": "987"
+          }
+        ]
+      },
+      "message": "text message on a picture",
+      "actions": [
+        {
+          "name": "Comment",
+          "link": "https://www.facebook.com/777/posts/postId3"
+        },
+        {
+          "name": "Like",
+          "link": "https://www.facebook.com/777/posts/postId3"
+        },
+        {
+          "name": "Create Group Chat",
+          "link": "https://www.facebook.com/groups/777/"
+        }
+      ],
+      "privacy": {
+        "value": "CUSTOM",
+        "description": "",
+        "friends": "",
+        "allow": "",
+        "deny": ""
+      },
+      "type": "status",
+      "created_time": "2016-04-08T22:35:32+0000",
+      "updated_time": "2016-04-08T22:35:32+0000",
+      "is_hidden": false,
+      "subscribed": true,
+      "is_expired": false
+    },
+    {
+      "id": "777_postId4",
+      "from": {
+        "name": "diego",
+        "id": "666"
+      },
+      "to": {
+        "data": [
+          {
+            "name": "GROUP",
+            "privacy": "SECRET",
+            "id": "777"
+          }
+        ]
+      },
+      "story": "diego created the group GROUP.",
+      "story_tags": {
+        "0": [
+          {
+            "id": "666",
+            "name": "diego",
+            "type": "user",
+            "offset": 0,
+            "length": 14
+          }
+        ],
+        "33": [
+          {
+            "id": "777",
+            "name": "GROUP",
+            "type": "group",
+            "offset": 33,
+            "length": 6
+          }
+        ]
+      },
+      "actions": [
+        {
+          "name": "Comment",
+          "link": "https://www.facebook.com/777/posts/postId4"
+        },
+        {
+          "name": "Like",
+          "link": "https://www.facebook.com/777/posts/postId4"
+        },
+        {
+          "name": "Create Group Chat",
+          "link": "https://www.facebook.com/groups/777/"
+        }
+      ],
+      "privacy": {
+        "value": "CUSTOM",
+        "description": "",
+        "friends": "",
+        "allow": "",
+        "deny": ""
+      },
+      "type": "status",
+      "created_time": "2016-04-08T22:01:20+0000",
+      "updated_time": "2016-04-08T22:12:45+0000",
+      "is_hidden": false,
+      "subscribed": true,
+      "is_expired": false
+    }
+  ],
+  "paging": {
+    "previous": "https://graph.facebook.com/v2.3/777/feed?format=json&since=1460226318&access_token=CAACEdEose0cBAJQ6cR1L1h6xU8jEwOrEIkUllZA5JIkkdZAalLbHlgG1ZAbXb8BsaPeiDdwKnzGeJbs77iSwZBZB0G0rIXoX78i4vFd36HZCRpJZBkeESB3DKWhg0H8D4oJZAHnGo7ogHbzTZABFZAWMM8UH2FbS6polZBdGLfZC11rIZCuwsZC7RAiwrcZC86qrnFaAa62FZCsrrWwX0gZDZD&limit=25&__paging_token=enc_AdBirZBBGvThZBxZC1RxuBM1RGqgbxeTAHOmvry32iUeGyLire5ZCmRXfYQQbFGCjx1D88ofKbgoJJuZB3wVhsR0mqZAfHV2ZCz5ZCw4SnsLmD5PDcvTLQZDZD&__previous=1",
+    "next": "https://graph.facebook.com/v2.3/777/feed?format=json&access_token=CAACEdEose0cBAJQ6cR1L1h6xU8jEwOrEIkUllZA5JIkkdZAalLbHlgG1ZAbXb8BsaPeiDdwKnzGeJbs77iSwZBZB0G0rIXoX78i4vFd36HZCRpJZBkeESB3DKWhg0H8D4oJZAHnGo7ogHbzTZABFZAWMM8UH2FbS6polZBdGLfZC11rIZCuwsZC7RAiwrcZC86qrnFaAa62FZCsrrWwX0gZDZD&limit=25&until=1460153565&__paging_token=enc_AdBw8DENZBAvNZCtI1YGttjHLeivHF60u4XUu6JKedq16NpE25kmNBQh4K7NqNaY0LV0xoqIZADmxvpVji0uZC5yiDXPLI9oZCdmvfYZAFoguM0rAhWAZDZD"
+  }
+}
